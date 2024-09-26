@@ -19,32 +19,54 @@ const SignupForm: React.FC = () => {
 
   const navigate = useNavigate();
 
-  const handleFormSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (formData.password !== formData.confirmPassword) {
-      setPasswordError("Passwords do not match.");
-      return;
-    }
+  const handleFormSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
 
-    if (!formData.termsAndConditions) {
-      alert("Please accept the terms and conditions.");
-      return;
-    }
+  if (formData.password !== formData.confirmPassword) {
+    setPasswordError("Passwords do not match.");
+    return;
+  }
 
-    setPasswordError(null);
-    console.log(formData);
+  if (!formData.termsAndConditions) {
+    alert("Please accept the terms and conditions.");
+    return;
+  }
 
-    navigate("/dashboard");
+  setPasswordError(null);
 
-    setFormData({
-      username: "",
-      email: "",
-      password: "",
-      confirmPassword: "",
-      termsAndConditions: false,
+  try {
+    const response = await fetch('http://localhost:5000/signup', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        username: formData.username,
+        email: formData.email,
+        password: formData.password,
+      }),
     });
-    setChecked(false);
-  };
+
+    if (response.ok) {
+      navigate("/dashboard");
+    } else {
+      const errorData = await response.json();
+      alert(errorData.error);
+    }
+  } catch (error) {
+    console.error("Error during form submission", error);
+  }
+
+  setFormData({
+    username: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+    termsAndConditions: false,
+  });
+  setChecked(false);
+};
+
 
   const handleCheckBoxClick = () => {
     setChecked((prevCheck) => !prevCheck);
