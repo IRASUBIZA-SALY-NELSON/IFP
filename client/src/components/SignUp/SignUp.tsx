@@ -6,7 +6,6 @@ import styles from "./SignUp.module.css";
 import SignUpWith from "./SignUpWith";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
-
 const SignupForm: React.FC = () => {
   const [isChecked, setChecked] = useState(false);
   const [passwordError, setPasswordError] = useState<string | null>(null);
