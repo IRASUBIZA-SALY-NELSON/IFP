@@ -15,19 +15,20 @@ import ProjectDesc from "./components/ProjectDescription/ProjectDesc";
 import DashboardSponsors from "./components/Dashboard-sponsors/DashboardSponsors";
 import AboutUs from "./components/AboutUs/AboutUs";
 import UserProfile from "./components/UserProfile/UserProfile";
+import UserDashboard from "./components/User-dashboard/UserDashboard";
 
 const App = () => {
   const notificationDay = new Date().toLocaleDateString(); // Get current date
 
   return (
     <div style={{overflow: "hidden", boxSizing: "border-box"}}>
-
     <Router>
       <Routes>
         <Route path="/" element={<WelcomePage />}></Route>
         <Route path="/register" element={<SignupForm />}></Route>
         <Route path="/complete-profile" element={<Profile />}></Route>
         <Route path="/login" element={<Login />}></Route>
+        <Route path="/user-dashboard" element={<UserDashboard />}></Route>
         <Route path="/funds/deposit/card" element={<FundProject />}></Route>
         <Route path="/funds/deposit/amount" element={<ChooseAmount />}></Route>
         <Route path="/contacts" element={<ContactForm />}></Route>
@@ -39,7 +40,7 @@ const App = () => {
         <Route path="/menu" element={<Menu />}></Route>
         <Route
           path="/notifications"
-          element={<Notification notificationDay={notificationDay} />}
+          element={<Notification  notificationDay={notificationDay} />}
         />
         <Route path="/my-profile" element={<MyProfile />}></Route>
         <Route path="/dashboard" element={<Dashboard selectedTab={"All"} onTabChange={function (tab: "All" | "Approved" | "Unapproved"): void {

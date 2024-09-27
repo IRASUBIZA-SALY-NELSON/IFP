@@ -7,5 +7,4 @@ router.post("/notification", notificationController.createNotification);
 router.put("/:id", notificationController.markNotificationAsRead);
 router.put("/mark-all-as-read", notificationController.markAllAsRead);
 
-
 module.exports = router;

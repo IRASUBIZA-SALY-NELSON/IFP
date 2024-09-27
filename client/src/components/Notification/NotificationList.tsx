@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
-import { FaArrowLeftLong } from "react-icons/fa6";
 import NotificationCard from "./NotificationCard";
 import { PiCaretLeftBold } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
+import { Spinner } from "react-bootstrap";
+import logo from "../../assets/Logo.svg";
+import empty from '../../assets/empty.6a6fd042-removebg-preview.png'
 
 interface NotificationProps {
   notificationDay: string;
@@ -24,8 +26,7 @@ const NotificationList = ({ notificationDay }: NotificationProps) => {
     setLoading(true);
 
     setTimeout(() => {
-      // Simulate error scenario
-      const success = Math.random() > 0.2; // 80% chance of success
+      const success = Math.random() > 0.2;
 
       if (success) {
         const fakeNotifications = [
@@ -69,29 +70,54 @@ const NotificationList = ({ notificationDay }: NotificationProps) => {
 
   if (loading) {
     return (
-      <div className="p-3 pt-4">
-        <div className="d-flex justify-content-evenly">
-          <div className="back-button" onClick={handleBack}>
-            <PiCaretLeftBold color="green" size={30} />
-          </div>
-          <h1>Notifications</h1>
-          <div className="d-flex">
-            <p
-              className="mt-1"
-              onClick={markAllAsRead}
-              style={{ cursor: "pointer" }}
-            >
-              Mark all as read
-            </p>
-          </div>
+      <div
+        className="p-3 pt-4 d-flex justify-content-center align-items-center"
+        style={{ height: "100vh" }}
+      >
+        <div
+          className="spinner-container"
+          style={{ position: "relative", width: "100px", height: "100px" }}
+        >
+          <Spinner
+            animation="border"
+            role="status"
+            variant="success"
+            style={{ position: "absolute", width: "100%", height: "100%" }}
+          >
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+          <img
+            src={logo}
+            alt="Logo"
+            style={{
+              position: "absolute",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              width: "50px",
+              height: "50px",
+            }}
+          />
         </div>
-        <p>Loading notifications....</p>
       </div>
     );
   }
 
   if (error) {
-    return <p>There was an error loading notifications. Please try again.</p>;
+    return (
+      <div className="p-3 pt-4">
+        <div className="d-flex justify-content-between">
+          <div className="back-button" onClick={handleBack}>
+            <PiCaretLeftBold color="green" size={30} />
+          </div>
+          <h1 className="mx-5 px-5">Notifications</h1>
+        </div>
+        <div className="d-flex justify-content-center mt-5 pt-5">
+          <img src={empty} alt="" style={{ height: "200px", width: "200px"}} />
+        </div>
+        <h4 className="text-center fw-semibold mt-4">No notification found.</h4>
+      </div>
+    );
   }
 
   return (
@@ -117,7 +143,6 @@ const NotificationList = ({ notificationDay }: NotificationProps) => {
           key={notification.id}
           notificationParagraph={notification.text}
           notificationTime={notification.time}
-          isRead={notification.isRead}
         />
       ))}
     </div>

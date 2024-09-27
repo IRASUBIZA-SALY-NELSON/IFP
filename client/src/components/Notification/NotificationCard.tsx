@@ -1,5 +1,4 @@
-import React, { useState } from 'react'
-import { FaArrowLeftLong } from "react-icons/fa6";
+import { useState } from 'react'
 import { IoClose } from "react-icons/io5";
 import profile from "../../assets/farmer_1-removebg-preview.png";
 import styles from "./Notification.module.css";
@@ -7,7 +6,6 @@ import styles from "./Notification.module.css";
 interface NotificationCardProps {
     notificationParagraph: string,
     notificationTime: string,
-    isRead: boolean
 }
 
 const NotificationCard = ({notificationParagraph, notificationTime}:NotificationCardProps) => {
