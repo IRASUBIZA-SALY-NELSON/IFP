@@ -1,10 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import logo from "../../assets/Logo.svg";
 import styles from "./Footer.module.css";
 import { Link } from "react-router-dom";
 import { BsFacebook, BsInstagram, BsTwitter, BsLinkedin } from "react-icons/bs";
 
 const Footer = () => {
+  const [email, setEmail] = useState("");
+
+  const handleSubscribe = async () => {
+    if (!email) {
+      alert("Please enter an email address.");
+      return;
+    }
+
+    try {
+      const response = await fetch('http://localhost:5000/send-email', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email }),
+      });
+
+      if (response.ok) {
+        alert("Subscription successful!");
+        setEmail("");
+      } else {
+        const errorData = await response.json();
+        alert(errorData.error);
+      }
+    } catch (error) {
+      console.error("Error during subscription", error);
+    }
+  };
+
   return (
     <div>
       <hr />
@@ -48,10 +77,9 @@ const Footer = () => {
         </div>
       </div>
       <hr />
-
       <div className="mt-3 p-4">
         <h3 className="text-center">Join Our Newsletter</h3>
-        <p className=" text-secondary text-center">
+        <p className="text-secondary text-center">
           Be the first to know about our latest updates, exclusive offers, and
           more.
         </p>
@@ -60,12 +88,15 @@ const Footer = () => {
             type="text"
             className="form-control"
             placeholder="Enter your email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
-          <button className="btn btn-success mx-2">Subscribe</button>
+          <button className="btn btn-success mx-2" onClick={handleSubscribe}>
+            Subscribe
+          </button>
         </div>
       </div>
       <hr />
-
       <div className="p-4">
         <div className="d-flex justify-content-between px-4 mx-5 mt-3">
           <Link to={"#"} className={`link ${styles.link}  text-secondary`}>
@@ -79,8 +110,8 @@ const Footer = () => {
           </Link>
         </div>
         <div className="mt-3">
-          <p className="text-center  text-secondary">
-            &copy; 2024 IFp. All Rights Reserved.
+          <p className="text-center text-secondary">
+            &copy; 2024 IFP. All Rights Reserved.
           </p>
         </div>
       </div>
