@@ -29,6 +29,18 @@ const ProjectSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
+    finished: {
+      type: Boolean,
+      default: false,
+    },
+    done: {
+      type: Boolean,
+      default: false,
+    },
+    funded: {
+      type: Boolean,
+      default: false,
+    },
   },
   {
     timestamps: true,
