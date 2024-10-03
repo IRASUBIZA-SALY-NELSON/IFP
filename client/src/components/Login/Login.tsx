@@ -25,7 +25,7 @@ const Login = () => {
         password: formData.password,
       });
       const { dashboard } = response.data;
-      navigate(`/${dashboard}`);
+      navigate(`/${UserDashboard}`);
     } catch (error) {
       alert("Incorrect credentials");
     }
