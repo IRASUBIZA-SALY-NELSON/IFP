@@ -22,7 +22,7 @@ const DashboardSponsors = () => {
       <div className="p-3">
         <div className="d-flex justify-content-between mb-3">
           <h3 className="mt-2 fw-semibold">New Proposals</h3>
-          <input
+          <input title="input the date"
             type="date"
             className="border border-success border-2 rounded-5"
             style={{ maxHeight: "50px", maxWidth: "145px" }}

@@ -25,7 +25,7 @@ const WelcomePage = () => {
             to={"/register"}
             className={`button ${styles.button} text-white text-decoration-none fs-5 d-block fw-semibold mx-5 rounded-5`}
           >
-            Sign In
+            Sign Up
           </Link>
         </div>
         <div className="text-center mt-5">

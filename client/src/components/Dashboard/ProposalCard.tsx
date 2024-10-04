@@ -64,7 +64,7 @@ const ProposalCard = ({proposalHeading, proposalDescription}: Props) => {
           </p>
           <div className="d-flex justify-content-center">
             <Link to={'/project-description'}>
-              <button
+              <button type="button"
                 className={`btn btn-light ${styles.readMore} fs-5 fw-semibold text-success`}
               >
                 Read more

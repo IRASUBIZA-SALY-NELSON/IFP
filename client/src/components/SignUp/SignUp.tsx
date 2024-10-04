@@ -57,7 +57,7 @@ const SignupForm: React.FC = () => {
     });
 
     if (response.ok) {
-      navigate("/dashboard");
+      navigate("/user-dashboard");
     } else {
       const errorData = await response.json();
       alert(errorData.error);

@@ -6,27 +6,29 @@ import { ImCheckboxChecked, ImCheckboxUnchecked } from "react-icons/im";
 import { FcGoogle } from "react-icons/fc";
 import SignUpWith from "../SignUp/SignUpWith";
 import { useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    userName: "",
+    username: "",
     password: "",
     rememberMe: false,
   });
-
   const [isChecked, setChecked] = useState(false);
+  const navigate = useNavigate();
 
-  const navigate = useNavigate()
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData);
-    setFormData({
-      userName: "",
-      password: "",
-      rememberMe: false,
-    });
-    setChecked(false);
-    navigate('/dashboard')
+    try {
+      const response = await axios.post("/login", {
+        username: formData.username,
+        password: formData.password,
+      });
+      const { dashboard } = response.data;
+      navigate(`/${UserDashboard}`);
+    } catch (error) {
+      alert("Incorrect credentials");
+    }
   };
 
   const handleCheckBoxClick = () => {
@@ -46,9 +48,9 @@ const Login = () => {
             className="form-control"
             placeholder="Username"
             name="username"
-            value={formData.userName}
+            value={formData.username}
             onChange={(e) =>
-              setFormData({ ...formData, userName: e.target.value })
+              setFormData({ ...formData, username: e.target.value })
             }
             required
           />
@@ -69,19 +71,11 @@ const Login = () => {
         </div>
         <div className={`${styles.inputGroup} d-flex justify-content-between`}>
           <div>
-            <span onClick={handleCheckBoxClick} className={`${styles.icon}`}>
+            <span onClick={handleCheckBoxClick} className={styles.icon}>
               {!isChecked ? (
-                <ImCheckboxUnchecked
-                  className={`${styles.icon}`}
-                  size={20}
-                  color="green"
-                />
+                <ImCheckboxUnchecked size={20} color="green" />
               ) : (
-                <ImCheckboxChecked
-                  className={`${styles.icon} `}
-                  size={20}
-                  color="green"
-                />
+                <ImCheckboxChecked size={20} color="green" />
               )}
             </span>
             <p className="mx-5">Remember me</p>
