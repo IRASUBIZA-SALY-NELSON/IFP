@@ -17,7 +17,16 @@ const SignupForm: React.FC = () => {
     termsAndConditions: false,
   });
 
+  const accordions = [
+    { id: 1, className: "bg-success"},
+    { id: 2, className: "bg-success-subtle"}
+  ]
+
   const navigate = useNavigate();
+
+  const navigateToCompleteProfile = () => {
+    navigate('/complete-profile')
+  }
 
   const handleFormSubmit = async (e: React.FormEvent) => {
   e.preventDefault();
@@ -76,7 +85,12 @@ const SignupForm: React.FC = () => {
   return (
     <div className={styles.signupForm}>
       <p className="text-success fs-2 fw-bold text-right">Sign Up</p>
-      <p className="text-black fs-5 mb-3">Welcome to the app</p>
+      <p className="fw-semibold text-black fs-5 mb-3">Welcome to the app</p>
+      <div className="d-flex mb-3">
+        { accordions.map(accordion => (
+          <div className={`${styles.accordion} ${accordion.className}`} key={accordion.id}></div>
+        ))}
+      </div>
       <form onSubmit={handleFormSubmit}>
         <div className={styles.inputGroup}>
           <FaRegUser className={styles.icon} size={20} />
@@ -161,10 +175,11 @@ const SignupForm: React.FC = () => {
         </div>
 
         <button
-          type="submit"
+          type="button"
           className={`btn btn-success ${styles.submitButton} fw-semibold fs-4`}
+          onClick={navigateToCompleteProfile}
         >
-          Sign Up
+          Next
         </button>
 
         <h4 className="text-center mt-3">or</h4>

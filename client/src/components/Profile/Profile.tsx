@@ -1,31 +1,22 @@
-import React, { useState } from "react";
-import { FiPlus } from "react-icons/fi";
+import React, { useRef, useState } from "react";
+import { FiCamera } from "react-icons/fi";
 import { RxCaretRight, RxCaretDown } from "react-icons/rx";
 import styles from "./Profile.module.css";
 import { MdRadioButtonChecked, MdRadioButtonUnchecked } from "react-icons/md";
+import imagePlaceholder from "../../assets/contactImage.png";
 
 const Profile: React.FC = () => {
-  const [image, setImage] = useState<string | null>(null);
   const [isProvinceDropdownOpen, setIsProvinceDropdownOpen] = useState(false);
   const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
   const [isCityDropdownOpen, setCityDropdownOpen] = useState(false);
-  const [cityOption, setCityOption] = useState<string[]>([]);
+  const [cityOptions, setCityOptions] = useState<string[]>([]);
   const [selectedCity, setSelectedCity] = useState<string | null>(null);
   const [gender, setGender] = useState<string | null>(null);
-
-  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files && event.target.files.length > 0) {
-      const file = event.target.files[0];
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImage(reader.result as string);
-      };
-      reader.readAsDataURL(file);
-    }
-  };
+  const [profileImage, setProfileImage] = useState<string>(imagePlaceholder);
+  const inputRef = useRef<HTMLInputElement | null>(null);
 
   const provinces: Record<string, string[]> = {
-    "Kigali City": ["Gasabo", "Kicukiro", "Nyarugenge"],
+    Kigali: ["Gasabo", "Kicukiro", "Nyarugenge"],
     Eastern: [
       "Rwamagana",
       "Kayonza",
@@ -57,11 +48,17 @@ const Profile: React.FC = () => {
     Northern: ["Rulindo", "Gakenke", "Musanze", "Gicumbi", "Burera"],
   };
 
+  const accordions = [
+    { id: 1, className: "bg-success-subtle"},
+    { id: 2, className: "bg-success"}
+  ]
+
   const handleSelectedProvince = (province: string) => {
     setSelectedProvince(province);
-    setCityOption(provinces[province]);
+    setCityOptions(provinces[province]);
     setSelectedCity(null);
     setIsProvinceDropdownOpen(false);
+    setCityDropdownOpen(false);
   };
 
   const handleSelectedCity = (city: string) => {
@@ -71,51 +68,84 @@ const Profile: React.FC = () => {
 
   const toggleProvinceDropdown = () => {
     setIsProvinceDropdownOpen((prev) => !prev);
+    if (isCityDropdownOpen) setCityDropdownOpen(false);
   };
 
   const toggleCityDropdown = () => {
-    if (selectedProvince) setCityDropdownOpen((prev) => !prev);
+    if (selectedProvince) {
+      setCityDropdownOpen((prev) => !prev);
+      if (isProvinceDropdownOpen) setIsProvinceDropdownOpen(false);
+    }
   };
 
   const handleSelectedGender = (gender: string) => {
     setGender(gender);
   };
 
+  const handleImageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setProfileImage(imageUrl);
+    }
+  };
+
   return (
     <div className={`${styles.container} p-3`}>
       <div>
         <h3 className="text-success fw-bold mb-5">Complete your profile</h3>
-        <form
-          onClick={(e) => {
-            e.preventDefault();
-          }}
-        >
+        <div className="d-flex mb-3">
+          {accordions.map(accordion => (
+            <div className={`${styles.accordion} ${accordion.className}`} key={accordion.id}></div>
+          ))}
+        </div>
+        <form onSubmit={(e) => e.preventDefault()}>
           <p className="d-block text-center fs-4 fw-semibold">
             Upload your profile picture
           </p>
-          <div className="d-flex justify-content-center">
-            <div className={styles.circle}>
-              {image ? (
-                <img src={image} alt="Profile" className={`border-success border-3 ${styles.image}`} />
-              ) : (
-                <label htmlFor="file-input" className={styles.label}>
-                  <FiPlus className={styles.plus} />
-                </label>
-              )}
+          <div className="d-flex justify-content-center mb-3 position-relative">
+            <div>
+              <img
+                src={profileImage}
+                alt="Profile"
+                style={{
+                  height: "200px",
+                  width: "200px",
+                  border: "2px solid green",
+                  borderRadius: "50%",
+                }}
+              />
+              <label
+                htmlFor="upload-profile"
+                className={`${styles.cameraIcon}`}
+              >
+                <FiCamera
+                  size={40}
+                  onClick={() => {
+                    if (inputRef) {
+                      console.log("clicked");
+                      inputRef.current?.click();
+                    }
+                  }}
+                  color="gray"
+                />
+              </label>
+              <input
+                id="upload-profile"
+                type="file"
+                accept="image/*"
+                ref={inputRef}
+                hidden
+                onChange={handleImageChange}
+              />
             </div>
-            <input
-              id="file-input"
-              type="file"
-              accept="image/*"
-              style={{ display: "none" }}
-              onChange={handleImageUpload}
-            />
           </div>
+
           <p className="text-center fw-semibold fs-3">Choose your location</p>
-          <div className="location d-flex justify-content-between">
+          <div className="d-flex justify-content-between">
             <div>
               <button
-                className={`border-success border-3 ${styles.province} fw-semibold fs-3`}
+                className={`${styles.province} fw-semibold fs-4`}
                 onClick={toggleProvinceDropdown}
               >
                 {selectedProvince || "Province"}
@@ -142,7 +172,7 @@ const Profile: React.FC = () => {
             </div>
             <div>
               <button
-                className={`border-success border-3 ${styles.city} fw-semibold fs-3`}
+                className={`${styles.city} fw-semibold fs-4`}
                 onClick={toggleCityDropdown}
                 disabled={!selectedProvince}
               >
@@ -155,7 +185,7 @@ const Profile: React.FC = () => {
               </button>
               {isCityDropdownOpen && (
                 <ul className={styles.dropdownMenu}>
-                  {cityOption.map((city) => (
+                  {cityOptions.map((city) => (
                     <li key={city}>
                       <button
                         className={styles.dropdownItem}
@@ -169,12 +199,13 @@ const Profile: React.FC = () => {
               )}
             </div>
           </div>
+
           <p className="text-center fs-3 fw-semibold mt-3">
             Select your gender
           </p>
           <div className="d-flex justify-content-center">
             <div
-              className={`${styles.inputGroup} d-flex mx-4`}
+              className="d-flex mx-4"
               onClick={() => handleSelectedGender("Male")}
             >
               <span className={styles.icon}>
@@ -187,10 +218,10 @@ const Profile: React.FC = () => {
               <p className="fs-3 mx-2">Male</p>
             </div>
             <div
-              className={`${styles.inputGroup} d-flex`}
+              className="d-flex"
               onClick={() => handleSelectedGender("Female")}
             >
-              <span className={styles.icon}>
+              <span>
                 {gender === "Female" ? (
                   <MdRadioButtonChecked size={30} color="green" />
                 ) : (
@@ -200,18 +231,15 @@ const Profile: React.FC = () => {
               <p className="fs-3 mx-2">Female</p>
             </div>
           </div>
+
           <p className="text-center fs-3 fw-semibold">Bank Account Number</p>
           <div className="d-flex justify-content-center">
-            <input
-              type="text"
-              className={`formControl ${styles["formControl"]}`}
-            />
+            <input type="text" className="form-control border border-success border-2" />
           </div>
+
           <div className="d-flex justify-content-center mt-4">
-            <button
-              className={`btn btn-success rounded-5 p-2 fw-semibold fs-3 mb-3`}
-            >
-              Save Information
+            <button className="btn btn-success rounded-5 p-2 fw-semibold fs-3 mb-3">
+              Create account
             </button>
           </div>
         </form>
