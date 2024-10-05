@@ -12,12 +12,12 @@ import Dashboard from "./components/Dashboard/Approval";
 import Profile from "./components/Profile/Profile";
 import ContactForm from "./components/Contacts/ContactForm";
 import ProjectDesc from "./components/ProjectDescription/ProjectDesc";
-import DashboardSponsors from './components/Dashboard-sponsors/DashboardSponsors';
+import DashboardSponsors from "./components/Dashboard-sponsors/DashboardSponsors";
 import AboutUs from "./components/AboutUs/AboutUs";
 import UserProfile from "./components/UserProfile/UserProfile";
-import UserDashboard from './components/User-dashboard/UserDashboard';
+import UserDashboard from "./components/User-dashboard/UserDashboard";
 import AuthGuard from "./components/AuthGuard/AuthGuard"; // Import the AuthGuard component
-import PageNotFound from './components/PageNotFound/PageNotFound'; // Import PageNotFound
+import PageNotFound from "./components/PageNotFound/PageNotFound"; // Import PageNotFound
 
 const App = () => {
   const notificationDay = new Date().toLocaleDateString();
@@ -122,7 +122,7 @@ const App = () => {
               </AuthGuard>
             }
           />
-            <Route
+          <Route
             path="/user-dashboard"
             element={
               <AuthGuard>

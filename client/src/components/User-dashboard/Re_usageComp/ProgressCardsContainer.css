@@ -1,0 +1,32 @@
+/* ProgressCardsContainer.css */
+
+.cards-container {
+    display: flex;
+    gap: 20px; /* Space between cards */
+    justify-content: space-between;
+    overflow-x: auto; /* Enable horizontal scrolling */
+    padding: 20px;
+  }
+  
+  .cards-container::-webkit-scrollbar {
+    display: none; /* Hide scrollbar for a cleaner look on mobile */
+  }
+  
+  .cards-container {
+    -ms-overflow-style: none; /* Hide scrollbar on IE and Edge */
+    scrollbar-width: none; /* Hide scrollbar on Firefox */
+  }
+  
+  @media (max-width: 768px) {
+    .cards-container {
+      overflow-x: scroll; /* Allow horizontal scroll on small devices */
+      flex-wrap: nowrap; /* Prevent cards from wrapping */
+    }
+  }
+  
+  @media (min-width: 769px) {
+    .cards-container {
+      justify-content: center; /* Center cards on larger screens */
+    }
+  }
+  
