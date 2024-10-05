@@ -1,5 +1,6 @@
 import { FaArrowLeftLong } from "react-icons/fa6";
 import NotificationCard from "./NotificationCard";
+import { Link } from "react-router-dom";
 
 interface NotificationProps {
   notificationDay: string;
@@ -20,7 +21,9 @@ const Notification = ({
         <FaArrowLeftLong size={30} color="green" />
         <div className="d-flex">
           <h3 className="text-success fs-2 mx-4">Notifications</h3>
-          <p className="mt-1">mark all as read</p>
+          <Link to={'/notifications'}>
+            <p className="mt-1">mark all as read</p>
+          </Link>
         </div>
       </div>
       <p className="fs-4">{notificationDay}</p>
