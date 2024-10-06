@@ -1,0 +1,25 @@
+.page-not-found {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f4;
+  text-align: center;
+}
+
+.page-not-found h1 {
+  font-size: 6rem;
+  color: #ff6347;
+}
+
+.page-not-found h2 {
+  font-size: 2rem;
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+.page-not-found p {
+  font-size: 1rem;
+  color: #666;
+}
