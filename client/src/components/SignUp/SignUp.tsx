@@ -6,16 +6,12 @@ import styles from "./SignUp.module.css";
 import SignUpWith from "./SignUpWith";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
+import { useContext } from 'react';
+import { SignUpContext } from '../../contexts/SignUpContext';
 
 const SignupForm: React.FC = () => {
   const [isChecked, setChecked] = useState(false);
-  const [formData, setFormData] = useState({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    termsAndConditions: false,
-  });
+ const { formData, setFormData } = useContext(SignUpContext)
 
   const navigate = useNavigate();
 

@@ -1,3 +1,5 @@
+import { useContext } from "react"
+
 import WelcomePage from "./components/WelcomePage/WelcomePage";
 import SignupForm from "./components/SignUp/SignUp";
 import Login from "./components/Login/Login";
@@ -18,9 +20,11 @@ import UserProfile from "./components/UserProfile/UserProfile";
 import UserDashboard from "./components/User-dashboard/UserDashboard";
 import AuthGuard from "./components/AuthGuard/AuthGuard"; // Import the AuthGuard component
 import PageNotFound from "./components/PageNotFound/PageNotFound"; // Import PageNotFound
+import { SignUpContext } from './contexts/SignUpContext';
 
 const App = () => {
   const notificationDay = new Date().toLocaleDateString();
+  const { formData } =  useContext(SignUpContext)
 
   return (
     <div style={{ overflow: "hidden", boxSizing: "border-box" }}>
@@ -29,9 +33,9 @@ const App = () => {
           <Route path="/" element={<WelcomePage />} />
           <Route path="/register" element={<SignupForm />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/complete-profile" element={<Profile signupData={signupData} />} />
-          <Route path="/notifications" element={<Notification notificationDay={notificationDay} />} />
-          <Route path="/dashboard" element={<Dashboard selectedTab={currentTab} onTabChange={handleTabChange} />} />
+          <Route path="/complete-profile" element={<Profile signupData={formData} />} />
+          {/* <Route path="/notifications" element={<Notification notificationDay={notificationDay} />} /> */}
+          {/* <Route path="/dashboard" element={<Dashboard selectedTab={currentTab} onTabChange={handleTabChange} />} /> */}
           {/* <Route path="/complete-profile" element={<Profile />} /> */}
           <Route path="/funds/deposit/card" element={<FundProject />} />
           <Route path="/funds/deposit/amount" element={<ChooseAmount />} />
