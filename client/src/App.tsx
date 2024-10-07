@@ -26,7 +26,6 @@ const App = () => {
     <div style={{ overflow: "hidden", boxSizing: "border-box" }}>
       <Router>
         <Routes>
-          {/* Public Routes */}
           <Route path="/" element={<WelcomePage />} />
           <Route path="/register" element={<SignupForm />} />
           <Route path="/login" element={<Login />} />
@@ -44,115 +43,113 @@ const App = () => {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/notifications" element={<Notification />} />
           <Route path="/about-us" element={<AboutUs />} />
-
-          {/* Protected Routes */}
           <Route
             path="/complete-profile"
             element={
-              <AuthGuard>
+             
                 <Profile />
-              </AuthGuard>
+            
             }
           />
           <Route
             path="/funds/deposit/card"
             element={
-              <AuthGuard>
+             
                 <FundProject />
-              </AuthGuard>
+            
             }
           />
           <Route
             path="/funds/deposit/amount"
             element={
-              <AuthGuard>
+             
                 <ChooseAmount />
-              </AuthGuard>
+            
             }
           />
           <Route
             path="/funds/deposit/confirm-payment"
             element={
-              <AuthGuard>
+             
                 <ConfirmPayment />
-              </AuthGuard>
+            
             }
           />
           <Route
             path="/contacts"
             element={
-              <AuthGuard>
+             
                 <ContactForm />
-              </AuthGuard>
+            
             }
           />
           <Route
             path="/menu"
             element={
-              <AuthGuard>
+             
                 <Menu />
-              </AuthGuard>
+            
             }
           />
           <Route
             path="/notifications"
             element={
-              <AuthGuard>
+             
                 <Notification notificationDay={notificationDay} />
-              </AuthGuard>
+            
             }
           />
           <Route
             path="/my-profile"
             element={
-              <AuthGuard>
+             
                 <MyProfile />
-              </AuthGuard>
+            
             }
           />
           <Route
             path="/dashboard"
             element={
-              <AuthGuard>
+             
                 <Dashboard
                   selectedTab={"All"}
                   onTabChange={(tab: "All" | "Approved" | "Unapproved") => {
                     // Handle tab change
                   }}
                 />
-              </AuthGuard>
+            
             }
           />
           <Route
             path="/sponsor-dashboard"
             element={
-              <AuthGuard>
+             
                 <DashboardSponsors />
-              </AuthGuard>
+            
             }
           />
           <Route
             path="/user-dashboard"
             element={
-              <AuthGuard>
+             
                 <UserDashboard />
-              </AuthGuard>
+            
             }
           />
           <Route
             path="/project-description"
             element={
-              <AuthGuard>
+             
                 <ProjectDesc />
-              </AuthGuard>
+            
             }
           />
           <Route
             path="/user-profile"
             element={
-              <AuthGuard>
+             
                 <UserProfile />
-              </AuthGuard>
+            
             }
           />
 
