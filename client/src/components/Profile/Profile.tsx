@@ -5,8 +5,11 @@ import styles from "./Profile.module.css";
 import { MdRadioButtonChecked, MdRadioButtonUnchecked } from "react-icons/md";
 import imagePlaceholder from "../../assets/contactImage.png";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
-  const Profile: React.FC<{ signupData: any }> = ({ signupData }) => {
+import { useLocation, useNavigate } from "react-router-dom";
+
+const Profile: React.FC = () => {
+  const location = useLocation();
+  const signupData = location.state?.signupData || {}; // Access signupData from location state
   const [isProvinceDropdownOpen, setIsProvinceDropdownOpen] = useState(false);
   const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
   const [isCityDropdownOpen, setCityDropdownOpen] = useState(false);
@@ -16,6 +19,7 @@ import { useNavigate } from "react-router-dom";
   const [profileImage, setProfileImage] = useState<string>(imagePlaceholder);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const navigate = useNavigate();
+
   const provinces: Record<string, string[]> = {
     Kigali: ["Gasabo", "Kicukiro", "Nyarugenge"],
     Eastern: [
@@ -62,11 +66,6 @@ import { useNavigate } from "react-router-dom";
     setCityDropdownOpen(false);
   };
 
-  const toggleProvinceDropdown = () => {
-    setIsProvinceDropdownOpen((prev) => !prev);
-    if (isCityDropdownOpen) setCityDropdownOpen(false);
-  };
-
   const handleSelectedGender = (gender: string) => {
     setGender(gender);
   };
@@ -87,12 +86,11 @@ import { useNavigate } from "react-router-dom";
     }
 
     const accountData = {
-      ...signupData, // Get the data from the signup form
+      ...signupData, // Use the signup data from the previous form
       profileImage,
       province: selectedProvince,
       city: selectedCity,
       gender,
-
     };
 
     try {
@@ -108,9 +106,7 @@ import { useNavigate } from "react-router-dom";
     <div className={`${styles.container} p-3`}>
       <h3 className="text-success fw-bold mb-5">Complete your profile</h3>
       <form onSubmit={handleSubmit}>
-        <p className="d-block text-center fs-4 fw-semibold">
-          Upload your profile picture
-        </p>
+        <p className="d-block text-center fs-4 fw-semibold">Upload your profile picture</p>
         <div className="d-flex justify-content-center mb-3 position-relative">
           <div>
             <img
@@ -121,141 +117,112 @@ import { useNavigate } from "react-router-dom";
                 width: "200px",
                 border: "2px solid green",
                 borderRadius: "50%",
+                objectFit: "cover",
               }}
             />
-            <label
-              htmlFor="upload-profile"
-              className={`${styles.cameraIcon}`}
+            <span
+              onClick={() => inputRef.current?.click()}
+              style={{ position: "absolute", bottom: "20px", right: "-10px" }}
             >
-              <FiCamera
-                size={40}
-                onClick={() => {
-                  if (inputRef) {
-                    inputRef.current?.click();
-                  }
-                }}
-                color="gray"
-              />
-            </label>
-            <input
-              id="upload-profile"
-              type="file"
-              accept="image/*"
-              ref={inputRef}
-              hidden
-              onChange={handleImageChange}
-            />
+              <FiCamera size={30} color="green" />
+            </span>
           </div>
         </div>
 
-        <p className="text-center fw-semibold fs-3">Choose your location</p>
-        <div className="d-flex justify-content-between">
-          <div>
-            <button
-              className={`${styles.province} fw-semibold fs-4`}
-              onClick={toggleProvinceDropdown}
-            >
-              {selectedProvince || "Province"}
-              {isProvinceDropdownOpen ? (
-                <RxCaretDown size={40} color="green" />
-              ) : (
-                <RxCaretRight size={40} color="green" />
-              )}
-            </button>
-            {isProvinceDropdownOpen && (
-              <ul className={styles.dropdownMenu}>
-                {Object.keys(provinces).map((province) => (
-                  <li key={province}>
-                    <button
-                      className={styles.dropdownItem}
-                      onClick={() => handleSelectedProvince(province)}
-                    >
-                      {province}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-          <div>
-            <button
-              className={`${styles.city} fw-semibold fs-4`}
-              onClick={() => {
-                if (selectedProvince) {
-                  setCityDropdownOpen((prev) => !prev);
-                  if (isProvinceDropdownOpen) setIsProvinceDropdownOpen(false);
-                }
-              }}
-              disabled={!selectedProvince}
-            >
-              {selectedCity || "City"}
-              {!isCityDropdownOpen ? (
-                <RxCaretRight size={40} color="green" />
-              ) : (
-                <RxCaretDown size={40} color="green" />
-              )}
-            </button>
-            {isCityDropdownOpen && (
-              <ul className={styles.dropdownMenu}>
-                {cityOptions.map((city) => (
-                  <li key={city}>
-                    <button
-                      className={styles.dropdownItem}
-                      onClick={() => handleSelectedCity(city)}
-                    >
-                      {city}
-                    </button>
-                  </li>
-                ))}
-              </ul>
-            )}
-          </div>
-        </div>
+        <input
+          type="file"
+          accept="image/*"
+          style={{ display: "none" }}
+          ref={inputRef}
+          onChange={handleImageChange}
+        />
 
-        <p className="text-center fs-3 fw-semibold mt-3">Select your gender</p>
-        <div className="d-flex justify-content-center">
+        <p className="fs-5 fw-semibold mb-3">Select your Province</p>
+        <div
+          onClick={() => setIsProvinceDropdownOpen(!isProvinceDropdownOpen)}
+          className={styles.dropdown}
+        >
+          <p className="fs-5 text-black">
+            {selectedProvince ? selectedProvince : "Choose province"}
+          </p>
+          <span>
+            {isProvinceDropdownOpen ? (
+              <RxCaretDown size={30} />
+            ) : (
+              <RxCaretRight size={30} />
+            )}
+          </span>
+        </div>
+        {isProvinceDropdownOpen && (
+          <div className={styles.dropdownMenu}>
+            {Object.keys(provinces).map((province) => (
+              <p key={province} onClick={() => handleSelectedProvince(province)}>
+                {province}
+              </p>
+            ))}
+          </div>
+        )}
+
+        <p className="fs-5 fw-semibold mb-3">Select your City</p>
+        <div
+          onClick={() => setCityDropdownOpen(!isCityDropdownOpen)}
+          className={styles.dropdown}
+        >
+          <p className="fs-5 text-black">
+            {selectedCity ? selectedCity : "Choose city"}
+          </p>
+          <span>
+            {isCityDropdownOpen ? (
+              <RxCaretDown size={30} />
+            ) : (
+              <RxCaretRight size={30} />
+            )}
+          </span>
+        </div>
+        {isCityDropdownOpen && (
+          <div className={styles.dropdownMenu}>
+            {cityOptions.map((city) => (
+              <p key={city} onClick={() => handleSelectedCity(city)}>
+                {city}
+              </p>
+            ))}
+          </div>
+        )}
+
+        <p className="fs-5 fw-semibold mb-3">Gender</p>
+        <div className="d-flex justify-content-start">
           <div
-            className="d-flex mx-4"
             onClick={() => handleSelectedGender("Male")}
+            className="d-flex align-items-center mx-2"
           >
-            <span>
+            <span className="mx-2">
               {gender === "Male" ? (
-                <MdRadioButtonChecked size={30} color="green" />
+                <MdRadioButtonChecked color="green" size={25} />
               ) : (
-                <MdRadioButtonUnchecked size={30} color="green" />
+                <MdRadioButtonUnchecked color="green" size={25} />
               )}
             </span>
-            <p className="fs-3 mx-2">Male</p>
+            <p className="fs-5 text-black">Male</p>
           </div>
+
           <div
-            className="d-flex"
             onClick={() => handleSelectedGender("Female")}
+            className="d-flex align-items-center mx-2"
           >
-            <span>
+            <span className="mx-2">
               {gender === "Female" ? (
-                <MdRadioButtonChecked size={30} color="green" />
+                <MdRadioButtonChecked color="green" size={25} />
               ) : (
-                <MdRadioButtonUnchecked size={30} color="green" />
+                <MdRadioButtonUnchecked color="green" size={25} />
               )}
             </span>
-            <p className="fs-3 mx-2">Female</p>
+            <p className="fs-5 text-black">Female</p>
           </div>
         </div>
 
-        <p className="text-center fs-3 fw-semibold">Bank Account Number</p>
         <div className="d-flex justify-content-center">
-          <input
-            type="text"
-            className="form-control border border-success border-2"
-          />
-        </div>
-
-        <div className="d-flex justify-content-center mt-4">
-          <button
-            type="submit"
-            className="btn btn-success rounded-5 p-2 fw-semibold fs-3 mb-3"
-          >
-            Create account
+          <button type="submit" className="btn btn-success px-5 py-2 fs-4">
+            Complete
           </button>
         </div>
       </form>

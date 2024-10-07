@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 
 const SignupForm: React.FC = () => {
   const [isChecked, setChecked] = useState(false);
-  const [passwordError, setPasswordError] = useState<string | null>(null);
   const [formData, setFormData] = useState({
     username: "",
     email: "",
@@ -17,11 +16,6 @@ const SignupForm: React.FC = () => {
     confirmPassword: "",
     termsAndConditions: false,
   });
-
-  const accordions = [
-    { id: 1, className: "bg-success" },
-    { id: 2, className: "bg-success-subtle" },
-  ];
 
   const navigate = useNavigate();
 
@@ -38,8 +32,8 @@ const SignupForm: React.FC = () => {
       formData.confirmPassword &&
       formData.termsAndConditions
     ) {
-      // Navigate to the complete-profile page
-      navigate("/complete-profile");
+      // Navigate to the complete-profile page with formData
+      navigate("/complete-profile", { state: { signupData: formData } });
     } else {
       alert("Please fill in all fields and accept the terms and conditions.");
     }
@@ -49,14 +43,7 @@ const SignupForm: React.FC = () => {
     <div className={styles.signupForm}>
       <p className="text-success fs-2 fw-bold text-right">Sign Up</p>
       <p className="fw-semibold text-black fs-5 mb-3">Welcome to the app</p>
-      <div className="d-flex mb-3">
-        {accordions.map((accordion) => (
-          <div
-            className={`${styles.accordion} ${accordion.className}`}
-            key={accordion.id}
-          ></div>
-        ))}
-      </div>
+
       <form onSubmit={(e) => e.preventDefault()}>
         <div className={styles.inputGroup}>
           <FaRegUser className={styles.icon} size={20} />
@@ -117,33 +104,22 @@ const SignupForm: React.FC = () => {
             required
           />
         </div>
-        {passwordError && (
-          <p className="text-danger fs-6 mt-1 mb-3">{passwordError}</p>
-        )}
 
-        <div className={`${styles.inputGroup}`}>
-          <span onClick={handleCheckBoxClick} className={`${styles.icon}`}>
+        <div className={styles.inputGroup}>
+          <span onClick={handleCheckBoxClick} className={styles.icon}>
             {!isChecked ? (
-              <ImCheckboxUnchecked
-                className={`${styles.icon}`}
-                size={20}
-                color="green"
-              />
+              <ImCheckboxUnchecked className={styles.icon} size={20} color="green" />
             ) : (
-              <ImCheckboxChecked
-                className={`${styles.icon} `}
-                size={20}
-                color="green"
-              />
+              <ImCheckboxChecked className={styles.icon} size={20} color="green" />
             )}
           </span>
           <p className="mx-5">I understood the terms and conditions</p>
         </div>
 
         <button
-          type="button" // Changed to type="button"
+          type="button"
           className={`btn btn-success ${styles.submitButton} fw-semibold fs-4`}
-          onClick={handleNextClick} // Call handleNextClick on click
+          onClick={handleNextClick}
         >
           Next
         </button>
@@ -152,7 +128,6 @@ const SignupForm: React.FC = () => {
         <div className="d-flex justify-content-between px-5 mt-3">
           <SignUpWith Icon={FcGoogle} />
           <SignUpWith Icon={FaApple} />
-          <SignUpWith Icon={FcGoogle} />
         </div>
       </form>
     </div>

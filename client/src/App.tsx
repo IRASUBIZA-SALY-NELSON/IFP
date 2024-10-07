@@ -37,121 +37,12 @@ const App = () => {
           <Route path="/menu" element={<Menu />} />
           <Route path="/notifications" element={<Notification notificationDay={notificationDay} />} />
           <Route path="/my-profile" element={<MyProfile />} />
-          <Route path="/dashboard" element={<Dashboard selectedTab={"All"} onTabChange={(tab) => {}} />} />
+          <Route path="/dashboard" element={<Dashboard selectedTab={"All"} onTabChange={() => {}} />} />
           <Route path="/sponsor-dashboard" element={<DashboardSponsors />} />
           <Route path="/user-dashboard" element={<UserDashboard />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/notifications" element={<Notification />} />
+          <Route path="/project-description" element={<ProjectDesc />} />
+          <Route path="/user-profile" element={<UserProfile />} />
           <Route path="/about-us" element={<AboutUs />} />
-          <Route
-            path="/complete-profile"
-            element={
-             
-                <Profile />
-            
-            }
-          />
-          <Route
-            path="/funds/deposit/card"
-            element={
-             
-                <FundProject />
-            
-            }
-          />
-          <Route
-            path="/funds/deposit/amount"
-            element={
-             
-                <ChooseAmount />
-            
-            }
-          />
-          <Route
-            path="/funds/deposit/confirm-payment"
-            element={
-             
-                <ConfirmPayment />
-            
-            }
-          />
-          <Route
-            path="/contacts"
-            element={
-             
-                <ContactForm />
-            
-            }
-          />
-          <Route
-            path="/menu"
-            element={
-             
-                <Menu />
-            
-            }
-          />
-          <Route
-            path="/notifications"
-            element={
-             
-                <Notification notificationDay={notificationDay} />
-            
-            }
-          />
-          <Route
-            path="/my-profile"
-            element={
-             
-                <MyProfile />
-            
-            }
-          />
-          <Route
-            path="/dashboard"
-            element={
-             
-                <Dashboard
-                  selectedTab={"All"}
-                  onTabChange={(tab: "All" | "Approved" | "Unapproved") => {
-                    // Handle tab change
-                  }}
-                />
-            
-            }
-          />
-          <Route
-            path="/sponsor-dashboard"
-            element={
-             
-                <DashboardSponsors />
-            
-            }
-          />
-          <Route
-            path="/user-dashboard"
-            element={
-             
-                <UserDashboard />
-            
-            }
-          />
-          <Route
-            path="/project-description"
-            element={
-             
-                <ProjectDesc />
-            
-            }
-          />
-          <Route
-            path="/user-profile"
-            element={
-             
-                <UserProfile />
-            
-            }
-          />
 
           {/* Fallback Route for 404 */}
           <Route path="*" element={<PageNotFound />} />
