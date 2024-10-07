@@ -29,15 +29,18 @@ const App = () => {
           <Route path="/" element={<WelcomePage />} />
           <Route path="/register" element={<SignupForm />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/complete-profile" element={<Profile />} />
+          <Route path="/complete-profile" element={<Profile signupData={signupData} />} />
+          <Route path="/notifications" element={<Notification notificationDay={notificationDay} />} />
+          <Route path="/dashboard" element={<Dashboard selectedTab={currentTab} onTabChange={handleTabChange} />} />
+          {/* <Route path="/complete-profile" element={<Profile />} /> */}
           <Route path="/funds/deposit/card" element={<FundProject />} />
           <Route path="/funds/deposit/amount" element={<ChooseAmount />} />
           <Route path="/funds/deposit/confirm-payment" element={<ConfirmPayment />} />
           <Route path="/contacts" element={<ContactForm />} />
           <Route path="/menu" element={<Menu />} />
-          <Route path="/notifications" element={<Notification notificationDay={notificationDay} />} />
+          {/* <Route path="/notifications" element={<Notification notificationDay={notificationDay} />} /> */}
           <Route path="/my-profile" element={<MyProfile />} />
-          <Route path="/dashboard" element={<Dashboard selectedTab={"All"} onTabChange={() => {}} />} />
+          {/* <Route path="/dashboard" element={<Dashboard selectedTab={"All"} onTabChange={() => {}} />} /> */}
           <Route path="/sponsor-dashboard" element={<DashboardSponsors />} />
           <Route path="/user-dashboard" element={<UserDashboard />} />
           <Route path="/project-description" element={<ProjectDesc />} />
