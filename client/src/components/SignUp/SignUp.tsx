@@ -6,6 +6,7 @@ import styles from "./SignUp.module.css";
 import SignUpWith from "./SignUpWith";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
+
 const SignupForm: React.FC = () => {
   const [isChecked, setChecked] = useState(false);
   const [passwordError, setPasswordError] = useState<string | null>(null);
@@ -18,68 +19,30 @@ const SignupForm: React.FC = () => {
   });
 
   const accordions = [
-    { id: 1, className: "bg-success"},
-    { id: 2, className: "bg-success-subtle"}
-  ]
+    { id: 1, className: "bg-success" },
+    { id: 2, className: "bg-success-subtle" },
+  ];
 
   const navigate = useNavigate();
-
-  const navigateToCompleteProfile = () => {
-    navigate('/complete-profile')
-  }
-
-  const handleFormSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-
-  if (formData.password !== formData.confirmPassword) {
-    setPasswordError("Passwords do not match.");
-    return;
-  }
-
-  if (!formData.termsAndConditions) {
-    alert("Please accept the terms and conditions.");
-    return;
-  }
-
-  setPasswordError(null);
-
-  try {
-    const response = await fetch('http://localhost:5000/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        username: formData.username,
-        email: formData.email,
-        password: formData.password,
-      }),
-    });
-
-    if (response.ok) {
-      navigate("/user-dashboard");
-    } else {
-      const errorData = await response.json();
-      alert(errorData.error);
-    }
-  } catch (error) {
-    console.error("Error during form submission", error);
-  }
-
-  setFormData({
-    username: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-    termsAndConditions: false,
-  });
-  setChecked(false);
-};
-
 
   const handleCheckBoxClick = () => {
     setChecked((prevCheck) => !prevCheck);
     setFormData({ ...formData, termsAndConditions: !isChecked });
+  };
+
+  const handleNextClick = () => {
+    if (
+      formData.username &&
+      formData.email &&
+      formData.password &&
+      formData.confirmPassword &&
+      formData.termsAndConditions
+    ) {
+      // Navigate to the complete-profile page
+      navigate("/complete-profile");
+    } else {
+      alert("Please fill in all fields and accept the terms and conditions.");
+    }
   };
 
   return (
@@ -87,11 +50,14 @@ const SignupForm: React.FC = () => {
       <p className="text-success fs-2 fw-bold text-right">Sign Up</p>
       <p className="fw-semibold text-black fs-5 mb-3">Welcome to the app</p>
       <div className="d-flex mb-3">
-        { accordions.map(accordion => (
-          <div className={`${styles.accordion} ${accordion.className}`} key={accordion.id}></div>
+        {accordions.map((accordion) => (
+          <div
+            className={`${styles.accordion} ${accordion.className}`}
+            key={accordion.id}
+          ></div>
         ))}
       </div>
-      <form onSubmit={handleFormSubmit}>
+      <form onSubmit={(e) => e.preventDefault()}>
         <div className={styles.inputGroup}>
           <FaRegUser className={styles.icon} size={20} />
           <input
@@ -175,9 +141,9 @@ const SignupForm: React.FC = () => {
         </div>
 
         <button
-          type="button"
+          type="button" // Changed to type="button"
           className={`btn btn-success ${styles.submitButton} fw-semibold fs-4`}
-          onClick={navigateToCompleteProfile}
+          onClick={handleNextClick} // Call handleNextClick on click
         >
           Next
         </button>
