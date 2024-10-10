@@ -18,6 +18,7 @@ import UserProfile from "./components/UserProfile/UserProfile";
 import UserDashboard from "./components/User-dashboard/UserDashboard";
 import AuthGuard from "./components/AuthGuard/AuthGuard"; // Import the AuthGuard component
 import PageNotFound from "./components/PageNotFound/PageNotFound"; // Import PageNotFound
+import UpdateFamily from "./components/FamilyPage/UpdateFamily";
 
 const App = () => {
   const notificationDay = new Date().toLocaleDateString();
@@ -35,6 +36,7 @@ const App = () => {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/notifications" element={<Notification />} />
           <Route path="/about-us" element={<AboutUs />} />
+          <Route path="/family/update-family" element={<UpdateFamily />}></Route>
 
           {/* Protected Routes */}
           <Route
