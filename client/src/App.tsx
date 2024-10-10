@@ -20,6 +20,7 @@ import AuthGuard from "./components/AuthGuard/AuthGuard"; // Import the AuthGuar
 import PageNotFound from "./components/PageNotFound/PageNotFound"; // Import PageNotFound
 import UpdateFamily from "./components/FamilyPage/UpdateFamily";
 import FamilyPortal from "./components/FamilyPage/FamilyPortal";
+import TermsAndConditions from "./components/TermsAndConditions/TermsAndConditions";
 
 const App = () => {
   const notificationDay = new Date().toLocaleDateString();
@@ -39,6 +40,7 @@ const App = () => {
           <Route path="/about-us" element={<AboutUs />} />
           <Route path="/family/update-family" element={<UpdateFamily />}></Route>
           <Route path="/family/portal" element={<FamilyPortal />}></Route>
+          <Route path="/terms-and-conditions" element={<TermsAndConditions />}></Route>
 
           {/* Protected Routes */}
           <Route
