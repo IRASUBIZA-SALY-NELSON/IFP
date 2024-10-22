@@ -1,0 +1,13 @@
+.back-button {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  cursor: pointer;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  font-family: sans-serif;
+}
