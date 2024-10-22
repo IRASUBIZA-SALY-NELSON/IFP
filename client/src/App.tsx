@@ -42,7 +42,7 @@ const App = () => {
           <Route path="/funds/deposit/confirm-payment" element={<ConfirmPayment />} />
           <Route path="/contacts" element={<ContactForm />} />
           <Route path="/menu" element={<Menu />} />
-          {/* <Route path="/notifications" element={<Notification notificationDay={notificationDay} />} /> */}
+          <Route path="/notifications" element={<Notification notificationDay={notificationDay} />} />
           <Route path="/my-profile" element={<MyProfile />} />
           {/* <Route path="/dashboard" element={<Dashboard selectedTab={"All"} onTabChange={() => {}} />} /> */}
           <Route path="/sponsor-dashboard" element={<DashboardSponsors />} />
