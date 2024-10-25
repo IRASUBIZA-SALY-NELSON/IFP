@@ -3,7 +3,13 @@ import './ProgressCard.css';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
-const ProgressCard = ({ projectName, percentage }) => {
+// Define props interface
+interface ProgressCardProps {
+  projectName: string;
+  percentage: number; // Ensure percentage is a number
+}
+
+const ProgressCard: React.FC<ProgressCardProps> = ({ projectName, percentage }) => {
   return (
     <div className="progress-card">
       <h5>{projectName}</h5>

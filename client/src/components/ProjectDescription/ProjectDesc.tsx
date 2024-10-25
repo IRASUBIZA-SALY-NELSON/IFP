@@ -4,17 +4,27 @@ import { useState, useEffect } from "react";
 import { Button, Modal } from "react-bootstrap";
 import styles from "./ProjectDesc.module.css";
 import axios from "axios";
+
+// Define the Project interface
+interface Project {
+  name: string;
+  imageUrl: string;
+  description: string;
+  startDate: string; // Assuming date is in string format
+  endDate: string;   // Assuming date is in string format
+}
+
 const ProjectDesc = () => {
-  const [project, setProject] = useState(null);
+  const [project, setProject] = useState<Project | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
   const navigate = useNavigate();
-  const { projectId } = useParams();
+  const { projectId } = useParams<{ projectId: string }>();
 
-  const parseDate = (dateString) => {
+  const parseDate = (dateString: string) => {
     const date = new Date(dateString);
-    return isNaN(date) ? "Invalid Date" : date.toLocaleDateString();
+    return isNaN(date.getTime()) ? "Invalid Date" : date.toLocaleDateString();
   };
 
   useEffect(() => {
@@ -52,7 +62,7 @@ const ProjectDesc = () => {
   }
 
   if (error || !project) {
-    return null; // You can handle the not found case here
+    return <div>Error loading project or project not found.</div>;
   }
 
   return (
