@@ -6,9 +6,17 @@ import ProgressCardsContainer from "./Re_usageComp/ProgressCardsContainer";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const UserDashboard = () => {
-  const [projects, setProjects] = useState([]);
-  const [error, setError] = useState(null);
+// Define the Project interface
+interface Project {
+  _id: string;
+  name: string;
+  description: string;
+  // Add any other project fields you need
+}
+
+const UserDashboard: React.FC = () => {
+  const [projects, setProjects] = useState<Project[]>([]);
+  const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,7 +30,7 @@ const UserDashboard = () => {
           },
         });
 
-        setProjects(response.data); // Adjust according to your response structure
+        setProjects(response.data); // Ensure response.data is an array of Project
         console.log("Number of projects fetched:", response.data.length);
       } catch (error) {
         console.error("Error fetching projects:", error);
@@ -42,21 +50,21 @@ const UserDashboard = () => {
       <Header />
       <div className="mt-5">
         {error && <div className="alert alert-danger">{error}</div>}
-      {projects.length > 0 ? (
-  projects.map((project) => (
-    <div key={project._id} className="pt-5">
-      <ProposalCard
-        proposalHeading={project.name}
-        proposalDescription={project.description}
-        projectId={project._id} // Pass the projectId here
-      />
-    </div>
-  ))
-) : (
-  <div className="pt-5">
-    <h2>Hello World</h2>
-  </div>
-)}
+        {projects.length > 0 ? (
+          projects.map((project) => (
+            <div key={project._id} className="pt-5">
+              <ProposalCard
+                proposalHeading={project.name}
+                proposalDescription={project.description}
+                projectId={project._id}
+              />
+            </div>
+          ))
+        ) : (
+          <div className="pt-5">
+            <h2>Hello World</h2>
+          </div>
+        )}
 
         <button
           onClick={handleCreateNewClick}
