@@ -1,87 +1,84 @@
 const Project = require("../model/Project");
+const jwt = require("jsonwebtoken");
 
-exports.createProject = async (req, res) => {
+const getUserIdFromRequest = (req) => {
+  const token = req.headers.authorization?.split(" ")[1];
+  console.log("Token:", token);
+
+  if (!token) return null;
+
   try {
-    const { name, description, projectImageUrl, landSize, startDate, endDate } =
-      req.body;
-    const project = new Project({
-      name,
-      description,
-      projectImageUrl,
-      landSize,
-      startDate,
-      endDate,
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    console.log("Decoded token", decoded.userId);
+    return decoded.userId;
+  } catch (error) {
+    console.error("Token verification error:", error);
+    return null;
+  }
+};
+
+const createProject = async (req, res) => {
+  try {
+    const userId = getUserIdFromRequest(req);
+    const lastProject = await Project.findOne({ userId }).sort({
+      createdAt: -1,
     });
-    await project.save();
-    res.status(201).json({ message: "Project created successfully", project });
+    const currentTime = new Date();
+    const twelveHoursAgo = new Date(
+      currentTime.getTime() - 12 * 60 * 60 * 1000
+    );
+
+    if (lastProject && lastProject.createdAt > twelveHoursAgo) {
+      return res.status(403).json({
+        message: "You must wait 12 hours before creating another project.",
+        waitTime:
+          lastProject.createdAt.getTime() +
+          12 * 60 * 60 * 1000 -
+          currentTime.getTime(),
+      });
+    }
+
+    const newProject = new Project({
+      ...req.body,
+      userId,
+    });
+
+    await newProject.save();
+    res.status(201).json(newProject);
   } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    console.error("Error creating project:", error);
+    res.status(500).json({ message: "Error creating project", error });
   }
 };
 
-exports.getAllProjects = async (req, res) => {
+const getProjects = async (req, res) => {
   try {
-    const projects = await Project.find();
-    res.status(200).json(projects);
+    const userId = getUserIdFromRequest(req);
+
+    // No authorization check, proceed to fetch projects
+    const projects = await Project.find({ userId });
+    res.json(projects);
   } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    console.error("Error fetching projects:", error);
+    res.status(500).json({ message: "Error fetching projects" });
   }
 };
 
-exports.getProjectById = async (req, res) => {
+const getProjectById = async (req, res) => {
+  const { id } = req.params;
+
   try {
-    const { id } = req.params;
     const project = await Project.findById(id);
     if (!project) {
-      return res.status(404).json({ message: "Project not found" });
+      return res.status(404).json({ message: "Project not found." });
     }
-    res.status(200).json(project);
+    res
+      .status(200)
+      .json({ message: "Project retrieved successfully.", data: project });
   } catch (error) {
-    res.status(500).json({ message: "Server error", error });
+    console.error("Error fetching project:", error);
+    res.status(500).json({ message: "Server error.", error: error.message });
   }
 };
 
-exports.updateProject = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { name, description, projectImageUrl, landSize, startDate, endDate } =
-      req.body;
-    const project = await Project.findByIdAndUpdate(
-      id,
-      { name, description, projectImageUrl, landSize, startDate, endDate },
-      { new: true }
-    );
-    if (!project) {
-      return res.status(404).json({ message: "Project not found" });
-    }
-    res.status(200).json({ message: "Project updated successfully", project });
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error });
-  }
-};
-
-exports.deleteProject = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const result = await Project.findByIdAndDelete(id);
-    if (!result) {
-      return res.status(404).json({ message: "Project not found" });
-    }
-    res.status(200).json({ message: "Project deleted successfully" });
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error });
-  }
-};
-
-exports.deleteMultipleProjects = async (req, res) => {
-  try {
-    const { ids } = req.body;
-    const result = await Project.deleteMany({ _id: { $in: ids } });
-    if (result.deletedCount === 0) {
-      return res.status(404).json({ message: "No projects found to delete" });
-    }
-    res.status(200).json({ message: "Projects deleted successfully", result });
-  } catch (error) {
-    res.status(500).json({ message: "Server error", error });
-  }
-};
+module.exports = { createProject, getProjects, getProjectById };

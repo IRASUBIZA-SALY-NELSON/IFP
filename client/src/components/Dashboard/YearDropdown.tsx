@@ -14,7 +14,7 @@ const YearDropdown = () => {
   return (
     <div className="d-flex justify-content-between mb-3">
       <h4 className="mt-1">Sponsored Money</h4>
-      <select
+      <select title="Select the year"
         className="border border-success border-2 rounded-5 outline-0"
         value={selectedYear || ""}
         onChange={handleYearChange}

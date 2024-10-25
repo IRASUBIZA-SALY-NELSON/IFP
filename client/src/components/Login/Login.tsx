@@ -10,26 +10,39 @@ import axios from "axios";
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    username: "",
+    email: "",
     password: "",
     rememberMe: false,
   });
   const [isChecked, setChecked] = useState(false);
   const navigate = useNavigate();
 
-  const handleFormSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    try {
-      const response = await axios.post("/login", {
-        username: formData.username,
-        password: formData.password,
-      });
-      const { dashboard } = response.data;
-      navigate(`/${UserDashboard}`);
-    } catch (error) {
-      alert("Incorrect credentials");
+const handleFormSubmit = async (e) => {
+  e.preventDefault();
+  try {
+    const response = await axios.post("http://localhost:5000/login", {
+      email: formData.email,
+      password: formData.password,
+      rememberMe: formData.rememberMe,
+    });
+
+    console.log(response.data); // Log the entire response
+    const { token } = response.data;
+    console.log(token); // Log the token
+    if (!token) {
+      throw new Error("Token not received");
     }
-  };
+
+    localStorage.setItem("token", token);
+    setTimeout(() => {
+      navigate("/user-dashboard");
+    }, 100); // Delay for 100ms
+  } catch (error) {
+    alert("Incorrect credentials");
+    console.error(error);
+  }
+};
+
 
   const handleCheckBoxClick = () => {
     setChecked((prevCheck) => !prevCheck);
@@ -46,11 +59,11 @@ const Login = () => {
           <input
             type="text"
             className="form-control"
-            placeholder="Username"
-            name="username"
-            value={formData.username}
+            placeholder="Email"
+            name="email"
+            value={formData.email}
             onChange={(e) =>
-              setFormData({ ...formData, username: e.target.value })
+              setFormData({ ...formData, email: e.target.value })
             }
             required
           />
@@ -92,7 +105,6 @@ const Login = () => {
         <div className="d-flex justify-content-between px-5 mt-3">
           <SignUpWith Icon={FcGoogle} />
           <SignUpWith Icon={FaApple} />
-          <SignUpWith Icon={FcGoogle} />
         </div>
       </form>
     </div>

@@ -1,14 +1,12 @@
 import React from 'react';
-import './ProgressCard.css'
+import './ProgressCard.css';
 import { CircularProgressbar, buildStyles } from 'react-circular-progressbar';
 import 'react-circular-progressbar/dist/styles.css';
 
-const ProgressCard: React.FC = () => {
-  const percentage = 50;
-
+const ProgressCard = ({ projectName, percentage }) => {
   return (
     <div className="progress-card">
-      <h5>Automated Land Watering</h5>
+      <h5>{projectName}</h5>
       <div className="progress-container">
         <CircularProgressbar
           value={percentage}
@@ -21,9 +19,7 @@ const ProgressCard: React.FC = () => {
         />
       </div>
       <div className="buttons-container">
-        <button className="btn-all">All</button>
-        <button className="btn-light">Land prep</button>
-        <button className="btn-light">Equipments</button>
+        {/* Additional buttons can be added here if needed */}
       </div>
     </div>
   );

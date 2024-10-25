@@ -12,13 +12,15 @@ import { SignUpContext } from '../../contexts/SignUpContext';
 const SignupForm: React.FC = () => {
   const [isChecked, setChecked] = useState(false);
  const { formData, setFormData } = useContext(SignUpContext)
-
   const navigate = useNavigate();
-
-  const handleCheckBoxClick = () => {
-    setChecked((prevCheck) => !prevCheck);
-    setFormData({ ...formData, termsAndConditions: !isChecked });
-  };
+  
+ const handleCheckBoxClick = () => {
+  setChecked((prevCheck) => {
+    const newCheck = !prevCheck;
+    setFormData({ ...formData, termsAndConditions: newCheck });
+    return newCheck;
+  });
+};
 
   const handleNextClick = () => {
     if (
@@ -28,7 +30,6 @@ const SignupForm: React.FC = () => {
       formData.confirmPassword &&
       formData.termsAndConditions
     ) {
-      // Navigate to the complete-profile page with formData
       navigate("/complete-profile", { state: { signupData: formData } });
     } else {
       alert("Please fill in all fields and accept the terms and conditions.");
@@ -55,7 +56,6 @@ const SignupForm: React.FC = () => {
             required
           />
         </div>
-
         <div className={styles.inputGroup}>
           <FaRegEnvelope className={styles.icon} size={20} />
           <input

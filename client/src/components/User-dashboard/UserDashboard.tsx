@@ -1,22 +1,71 @@
+import React, { useEffect, useState } from "react";
 import ProposalCard from "../Dashboard/ProposalCard";
 import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import ProgressCardsContainer from "./Re_usageComp/ProgressCardsContainer";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const UserDashboard = () => {
+  const [projects, setProjects] = useState([]);
+  const [error, setError] = useState(null);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const fetchProjects = async () => {
+      const token = localStorage.getItem("token");
+
+      try {
+        const response = await axios.get("http://localhost:5000/projects", {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        setProjects(response.data); // Adjust according to your response structure
+        console.log("Number of projects fetched:", response.data.length);
+      } catch (error) {
+        console.error("Error fetching projects:", error);
+        setError("Failed to load projects. Please try again later.");
+      }
+    };
+
+    fetchProjects();
+  }, [navigate]);
+
+  const handleCreateNewClick = () => {
+    navigate("/create-project");
+  };
+
   return (
     <div className="p-3">
       <Header />
       <div className="mt-5">
-        <div className="pt-5">
-          <ProposalCard
-            proposalHeading="The animal food support project"
-            proposalDescription="This project aims at producing adequate food supplies to farmers and
-            other users."
-          />
-        </div>
+        {error && <div className="alert alert-danger">{error}</div>}
+      {projects.length > 0 ? (
+  projects.map((project) => (
+    <div key={project._id} className="pt-5">
+      <ProposalCard
+        proposalHeading={project.name}
+        proposalDescription={project.description}
+        projectId={project._id} // Pass the projectId here
+      />
+    </div>
+  ))
+) : (
+  <div className="pt-5">
+    <h2>Hello World</h2>
+  </div>
+)}
+
+        <button
+          onClick={handleCreateNewClick}
+          className="btn btn-success mt-3"
+        >
+          Create New
+        </button>
         <h4 className="fw-semibold mt-3">Project progress</h4>
-        <ProgressCardsContainer />
+        <ProgressCardsContainer projects={projects} />
       </div>
       <Footer />
     </div>

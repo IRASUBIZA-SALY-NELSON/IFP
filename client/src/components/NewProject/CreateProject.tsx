@@ -18,10 +18,14 @@ const CreateProject = () => {
     name: "",
     description: "",
     images: [],
-    startDate: "12 October 2022",
-    endDate: "12 October 2022",
-    landSize: 5000,
+    startDate: "",
+    endDate: "",
+    landSize: 0,
   });
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   const handleChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -51,37 +55,45 @@ const CreateProject = () => {
     }));
   };
 
-  const handleStartDateChange = (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setProjectData({
-      ...projectData,
-      startDate: event.target.value,
-    });
-  };
-
-  const handleEndDateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setProjectData({
-      ...projectData,
-      endDate: event.target.value,
-    });
-  };
-
-  const handleLandSizeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setProjectData({
-      ...projectData,
-      landSize: parseInt(event.target.value),
-    });
-  };
-
-  const navigate = useNavigate()
-  const handleBack = () => {
-    navigate(-1)
-  }
-
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    console.log("Form data:", projectData);
+    setLoading(true);
+    setError(null);
+    const formattedData = {
+    ...projectData,
+    startDate: new Date(projectData.startDate).toISOString(),
+    endDate: new Date(projectData.endDate).toISOString(),
+  };
+  console.log("Form data:", formattedData);
+
+    try {
+      const response = await fetch("http://localhost:5000/add-project", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(projectData),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to create project");
+      }
+
+      const result = await response.json();
+      console.log("Project created:", result);
+
+      // Redirect or show a success message after submission
+      navigate("/user-dashboard"); // For example, navigate to dashboard after submission
+    } catch (error: any) {
+      console.error("Error:", error);
+      setError("Failed to create the project.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleBack = () => {
+    navigate(-1);
   };
 
   return (
@@ -136,7 +148,7 @@ const CreateProject = () => {
                 alt={`Uploaded ${index}`}
                 className="grid-image mb-3"
               />
-              <button
+              <button title="please"
                 className="close-button bg-secondary"
                 onClick={() => handleRemoveImage(index)}
               >
@@ -154,7 +166,7 @@ const CreateProject = () => {
             id="startDate"
             name="startDate"
             value={projectData.startDate}
-            onChange={handleStartDateChange}
+            onChange={handleChange}
           />
         </div>
         <div className="input-group">
@@ -166,7 +178,7 @@ const CreateProject = () => {
             id="endDate"
             name="endDate"
             value={projectData.endDate}
-            onChange={handleEndDateChange}
+            onChange={handleChange}
           />
         </div>
         <div className="input-group">
@@ -180,14 +192,15 @@ const CreateProject = () => {
               name="landSize"
               className="p-1 border-0 mx-3"
               value={projectData.landSize}
-              onChange={handleLandSizeChange}
+              onChange={handleChange}
             />
             <span>km</span>
           </div>
         </div>
+        {error && <p className="error-text">{error}</p>}
         <div className="d-flex justify-content-center">
-          <button type="submit" className="buttonSubmit rounded-5">
-            Save Project
+          <button type="submit" className="buttonSubmit rounded-5" disabled={loading}>
+            {loading ? "Saving..." : "Save Project"}
           </button>
         </div>
       </form>

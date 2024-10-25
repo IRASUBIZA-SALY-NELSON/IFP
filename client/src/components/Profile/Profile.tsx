@@ -12,9 +12,9 @@ const Profile: React.FC = () => {
   const signupData = location.state?.signupData || {}; // Access signupData from location state
   const [isProvinceDropdownOpen, setIsProvinceDropdownOpen] = useState(false);
   const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
-  const [isCityDropdownOpen, setCityDropdownOpen] = useState(false);
-  const [cityOptions, setCityOptions] = useState<string[]>([]);
-  const [selectedCity, setSelectedCity] = useState<string | null>(null);
+  const [isDistrictDropdownOpen, setDistrictDropdownOpen] = useState(false);
+  const [districtOptions, setDistrictOptions] = useState<string[]>([]);
+  const [selectedDistrict, setSelectedDistrict] = useState<string | null>(null);
   const [gender, setGender] = useState<string | null>(null);
   const [profileImage, setProfileImage] = useState<string>(imagePlaceholder);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -55,15 +55,15 @@ const Profile: React.FC = () => {
 
   const handleSelectedProvince = (province: string) => {
     setSelectedProvince(province);
-    setCityOptions(provinces[province]);
-    setSelectedCity(null);
+    setDistrictOptions(provinces[province]);
+    setSelectedDistrict(null);
     setIsProvinceDropdownOpen(false);
-    setCityDropdownOpen(false);
+    setDistrictDropdownOpen(false);
   };
 
-  const handleSelectedCity = (city: string) => {
-    setSelectedCity(city);
-    setCityDropdownOpen(false);
+  const handleSelectedDistrict = (district: string) => {
+    setSelectedDistrict(district);
+    setDistrictDropdownOpen(false);
   };
 
   const handleSelectedGender = (gender: string) => {
@@ -77,30 +77,34 @@ const Profile: React.FC = () => {
       setProfileImage(imageUrl);
     }
   };
+const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  if (!selectedProvince || !selectedDistrict || !gender) {
+    console.log("Please fill in all required fields.");
+    return; 
+  }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!selectedProvince || !selectedCity || !gender) {
-      console.log("Please fill in all required fields.");
-      return; // Prevent submission if fields are not filled
-    }
-
-    const accountData = {
-      ...signupData, // Use the signup data from the previous form
-      profileImage,
-      province: selectedProvince,
-      city: selectedCity,
-      gender,
-    };
-
-    try {
-      const response = await axios.post("http://localhost:5000/signup", accountData);
-      console.log("Account created successfully:", response.data);
-      navigate("/dashboard"); // Navigate to the dashboard on successful account creation
-    } catch (error) {
-      console.error("Error creating account:", error);
-    }
+  const accountData = {
+    ...signupData,
+    profileImage,
+    province: selectedProvince,
+    district: selectedDistrict,
+    gender,
   };
+
+  try {
+    const response = await axios.post("http://localhost:5000/register", accountData);
+    console.log("Account created successfully:", response.data);
+    navigate("/user-dashboard");
+  } catch (error) {
+    if (error.response) {
+        console.error("Error creating account:", error.response.data);
+    } else {
+        console.error("Error creating account:", error.message);
+    }
+}
+
+};
 
   return (
     <div className={`${styles.container} p-3`}>
@@ -163,27 +167,28 @@ const Profile: React.FC = () => {
           </div>
         )}
 
-        <p className="fs-5 fw-semibold mb-3">Select your City</p>
+        <p className="fs-5 fw-semibold mb-3">Select your district</p>
         <div
-          onClick={() => setCityDropdownOpen(!isCityDropdownOpen)}
+          onClick={() => setDistrictDropdownOpen(!isDistrictDropdownOpen)}
           className={styles.dropdown}
         >
+          
           <p className="fs-5 text-black">
-            {selectedCity ? selectedCity : "Choose city"}
+            {selectedDistrict ? selectedDistrict : "Choose district"}
           </p>
           <span>
-            {isCityDropdownOpen ? (
+            {isDistrictDropdownOpen ? (
               <RxCaretDown size={30} />
             ) : (
               <RxCaretRight size={30} />
             )}
           </span>
         </div>
-        {isCityDropdownOpen && (
+        {isDistrictDropdownOpen && (
           <div className={styles.dropdownMenu}>
-            {cityOptions.map((city) => (
-              <p key={city} onClick={() => handleSelectedCity(city)}>
-                {city}
+            {districtOptions.map((district) => (
+              <p key={district} onClick={() => handleSelectedDistrict(district)}>
+                {district}
               </p>
             ))}
           </div>
