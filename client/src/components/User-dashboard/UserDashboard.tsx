@@ -11,7 +11,8 @@ interface Project {
   _id: string;
   name: string;
   description: string;
-  // Add any other project fields you need
+  startDate: string; // Add startDate
+  endDate: string;   // Add endDate
 }
 
 const UserDashboard: React.FC = () => {
