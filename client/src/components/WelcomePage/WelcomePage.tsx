@@ -9,12 +9,12 @@ const WelcomePage = () => {
       <div className="d-flex justify-content-center pt-5">
         <span className="text-white fw-bold fs-1">
           <img src={logo} alt="A logo" />
-          IFP
+          IFP 
         </span>
       </div>
       <div className="mt-5 pt-5">
         <p className="text-center text-white fw-bold fs-1">
-          Get In Touch with Farmers
+          Get In Touch with Farmers   
         </p>
         <p className="text-center text-white fw-bold fs-1">
           Sponsors and Middleman
@@ -41,5 +41,4 @@ const WelcomePage = () => {
     </div>
   );
 };
-
 export default WelcomePage;

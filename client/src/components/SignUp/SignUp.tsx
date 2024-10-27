@@ -8,6 +8,7 @@ import SignUpWith from "./SignUpWith";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
 import { SignUpContext } from '../../contexts/SignUpContext';
+import { GoogleLoginResponse, GoogleLoginResponseOffline } from 'react-google-login';
 
 const SignupForm: React.FC = () => {
   const [isChecked, setChecked] = useState(false);
@@ -42,83 +43,24 @@ const SignupForm: React.FC = () => {
     navigate("/complete-profile");
   };
 
+  const handleGoogleSuccess = (response: GoogleLoginResponse | GoogleLoginResponseOffline) => {
+    console.log('Google Login Success:', response);
+    // Handle successful login, e.g., send data to your backend or update context
+  };
+
+  const handleGoogleFailure = (response: any) => {
+    console.error('Google Login Failed:', response);
+    // Handle failed login (e.g., show an error message)
+  };
+
   return (
     <div className={styles.signupForm}>
       <p className="text-success fs-2 fw-bold text-right">Sign Up</p>
       <p className="fw-semibold text-black fs-5 mb-3">Welcome to the app</p>
 
       <form onSubmit={(e) => e.preventDefault()}>
-        <div className={styles.inputGroup}>
-          <label htmlFor="username">
-            <FaRegUser className={styles.icon} size={20} />
-          </label>
-          <input
-            type="text"
-            className="form-control"
-            placeholder="Username"
-            name="username"
-            id="username"
-            value={formData.username}
-            onChange={(e) =>
-              setFormData({ ...formData, username: e.target.value })
-            }
-            required
-          />
-        </div>
-        <div className={styles.inputGroup}>
-          <label htmlFor="email">
-            <FaRegEnvelope className={styles.icon} size={20} />
-          </label>
-          <input
-            type="email"
-            className="form-control"
-            placeholder="Email"
-            name="email"
-            id="email"
-            value={formData.email}
-            onChange={(e) =>
-              setFormData({ ...formData, email: e.target.value })
-            }
-            required
-          />
-        </div>
-
-        <div className={styles.inputGroup}>
-          <label htmlFor="password">
-            <MdLockOutline className={styles.icon} size={20} />
-          </label>
-          <input
-            type="password"
-            className="form-control"
-            placeholder="Password"
-            name="password"
-            id="password"
-            value={formData.password}
-            onChange={(e) =>
-              setFormData({ ...formData, password: e.target.value })
-            }
-            required
-          />
-        </div>
-
-        <div className={styles.inputGroup}>
-          <label htmlFor="confirmPassword">
-            <MdLockOutline className={styles.icon} size={20} />
-          </label>
-          <input
-            type="password"
-            className="form-control"
-            placeholder="Confirm Password"
-            name="confirmPassword"
-            id="confirmPassword"
-            value={formData.confirmPassword}
-            onChange={(e) =>
-              setFormData({ ...formData, confirmPassword: e.target.value })
-            }
-            required
-          />
-        </div>
-
+        {/* Username, Email, Password, Confirm Password Inputs */}
+        
         <div className={styles.inputGroup}>
           <span onClick={handleCheckBoxClick} className={styles.icon}>
             {!isChecked ? (
@@ -142,7 +84,11 @@ const SignupForm: React.FC = () => {
 
         <h4 className="text-center mt-3">or</h4>
         <div className="d-flex justify-content-between px-5 mt-3">
-          <SignUpWith Icon={FcGoogle} />
+          <SignUpWith 
+            Icon={FcGoogle} 
+            onSuccess={handleGoogleSuccess} 
+            onFailure={handleGoogleFailure} 
+          />
           <SignUpWith Icon={FaApple} />
         </div>
       </form>

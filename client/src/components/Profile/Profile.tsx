@@ -6,8 +6,7 @@ import { MdRadioButtonChecked, MdRadioButtonUnchecked } from "react-icons/md";
 import imagePlaceholder from "../../assets/contactImage.png";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
-// import { apiUrl } from '../../main';
-import { apiUrl } from '..';
+import { apiUrl } from "../../main"; // Adjust as needed
 
 interface ProfileProps {
   signupData: {
@@ -64,7 +63,7 @@ const Profile: React.FC<ProfileProps> = ({ signupData }) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!selectedProvince || !selectedDistrict || !gender) {
-      console.log("Please fill in all required fields.");
+      alert("Please fill in all required fields."); // Notify user
       return;
     }
 
@@ -76,7 +75,6 @@ const Profile: React.FC<ProfileProps> = ({ signupData }) => {
       gender,
     };
 
-       console.log("Submitting data:", accountData);
     try {
       const response = await axios.post(`${apiUrl}/register`, accountData);
       console.log("Account created successfully:", response.data);
@@ -85,8 +83,10 @@ const Profile: React.FC<ProfileProps> = ({ signupData }) => {
       const axiosError = error as AxiosError;
       if (axiosError.response) {
         console.error("Error creating account:", axiosError.response.data);
+        alert("Error creating account: " + axiosError.response.data); // Notify user
       } else {
         console.error("Error creating account:", axiosError.message);
+        alert("Error creating account: " + axiosError.message); // Notify user
       }
     }
   };
@@ -119,7 +119,6 @@ const Profile: React.FC<ProfileProps> = ({ signupData }) => {
         </div>
 
         <input
-        
           type="file"
           accept="image/*"
           style={{ display: "none" }}
@@ -128,10 +127,7 @@ const Profile: React.FC<ProfileProps> = ({ signupData }) => {
         />
 
         <p className="fs-5 fw-semibold mb-3">Select your Province</p>
-        <div
-          onClick={() => setIsProvinceDropdownOpen(!isProvinceDropdownOpen)}
-          className={styles.dropdown}
-        >
+        <div onClick={() => setIsProvinceDropdownOpen(!isProvinceDropdownOpen)} className={styles.dropdown}>
           <p className="fs-5 text-black">
             {selectedProvince ? selectedProvince : "Choose province"}
           </p>
@@ -150,10 +146,7 @@ const Profile: React.FC<ProfileProps> = ({ signupData }) => {
         )}
 
         <p className="fs-5 fw-semibold mb-3">Select your district</p>
-        <div
-          onClick={() => setDistrictDropdownOpen(!isDistrictDropdownOpen)}
-          className={styles.dropdown}
-        >
+        <div onClick={() => setDistrictDropdownOpen(!isDistrictDropdownOpen)} className={styles.dropdown}>
           <p className="fs-5 text-black">
             {selectedDistrict ? selectedDistrict : "Choose district"}
           </p>
@@ -173,10 +166,7 @@ const Profile: React.FC<ProfileProps> = ({ signupData }) => {
 
         <p className="fs-5 fw-semibold mb-3">Gender</p>
         <div className="d-flex justify-content-start">
-          <div
-            onClick={() => handleSelectedGender("Male")}
-            className="d-flex align-items-center mx-2"
-          >
+          <div onClick={() => handleSelectedGender("Male")} className="d-flex align-items-center mx-2">
             <span className="mx-2">
               {gender === "Male" ? (
                 <MdRadioButtonChecked color="green" size={25} />
@@ -187,10 +177,7 @@ const Profile: React.FC<ProfileProps> = ({ signupData }) => {
             <p className="fs-5 text-black">Male</p>
           </div>
 
-          <div
-            onClick={() => handleSelectedGender("Female")}
-            className="d-flex align-items-center mx-2"
-          >
+          <div onClick={() => handleSelectedGender("Female")} className="d-flex align-items-center mx-2">
             <span className="mx-2">
               {gender === "Female" ? (
                 <MdRadioButtonChecked color="green" size={25} />
