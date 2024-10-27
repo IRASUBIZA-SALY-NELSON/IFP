@@ -23,16 +23,18 @@ import FamilyPortal from './components/FamilyPage/FamilyPortal';
 import CreateProject from './components/NewProject/CreateProject';
 
 interface SignupData {
-  name: string;
+  username: string;
   email: string;
+  password: string;
 }
 
 const App = () => {
   const { formData } = useContext(SignUpContext);
 
   const signupData: SignupData = {
-    name: formData.username || "",
+    username: formData.username || "",
     email: formData.email || "",
+    password: formData.password || "",
   };
 
   return (

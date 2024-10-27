@@ -12,3 +12,9 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
     </SignUpContextProvider>
   </React.StrictMode>
 );
+
+export const isProd = process.env.NODE_ENV === "production";
+export const apiUrl = isProd
+  ? "https://ifp-48r2.onrender.com/"
+  : "http://localhost:5000";
+

@@ -24,16 +24,22 @@ const SignupForm: React.FC = () => {
 
   const handleNextClick = () => {
     if (
-      formData.username &&
-      formData.email &&
-      formData.password &&
-      formData.confirmPassword &&
-      formData.termsAndConditions
+      !formData.username ||
+      !formData.email ||
+      !formData.password ||
+      !formData.confirmPassword ||
+      !formData.termsAndConditions
     ) {
-      navigate("/complete-profile");
-    } else {
       alert("Please fill in all fields and accept the terms and conditions.");
+      return;
     }
+
+    if (formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match.");
+      return;
+    }
+
+    navigate("/complete-profile");
   };
 
   return (
@@ -43,12 +49,15 @@ const SignupForm: React.FC = () => {
 
       <form onSubmit={(e) => e.preventDefault()}>
         <div className={styles.inputGroup}>
-          <FaRegUser className={styles.icon} size={20} />
+          <label htmlFor="username">
+            <FaRegUser className={styles.icon} size={20} />
+          </label>
           <input
             type="text"
             className="form-control"
             placeholder="Username"
             name="username"
+            id="username"
             value={formData.username}
             onChange={(e) =>
               setFormData({ ...formData, username: e.target.value })
@@ -57,12 +66,15 @@ const SignupForm: React.FC = () => {
           />
         </div>
         <div className={styles.inputGroup}>
-          <FaRegEnvelope className={styles.icon} size={20} />
+          <label htmlFor="email">
+            <FaRegEnvelope className={styles.icon} size={20} />
+          </label>
           <input
             type="email"
             className="form-control"
             placeholder="Email"
             name="email"
+            id="email"
             value={formData.email}
             onChange={(e) =>
               setFormData({ ...formData, email: e.target.value })
@@ -72,12 +84,15 @@ const SignupForm: React.FC = () => {
         </div>
 
         <div className={styles.inputGroup}>
-          <MdLockOutline className={styles.icon} size={20} />
+          <label htmlFor="password">
+            <MdLockOutline className={styles.icon} size={20} />
+          </label>
           <input
             type="password"
             className="form-control"
             placeholder="Password"
             name="password"
+            id="password"
             value={formData.password}
             onChange={(e) =>
               setFormData({ ...formData, password: e.target.value })
@@ -87,12 +102,15 @@ const SignupForm: React.FC = () => {
         </div>
 
         <div className={styles.inputGroup}>
-          <MdLockOutline className={styles.icon} size={20} />
+          <label htmlFor="confirmPassword">
+            <MdLockOutline className={styles.icon} size={20} />
+          </label>
           <input
             type="password"
             className="form-control"
             placeholder="Confirm Password"
             name="confirmPassword"
+            id="confirmPassword"
             value={formData.confirmPassword}
             onChange={(e) =>
               setFormData({ ...formData, confirmPassword: e.target.value })
@@ -109,7 +127,9 @@ const SignupForm: React.FC = () => {
               <ImCheckboxChecked className={styles.icon} size={20} color="green" />
             )}
           </span>
-          <p className="mx-5">I understood the terms and conditions</p>
+          <label className="mx-5">
+            I agree to the terms and conditions
+          </label>
         </div>
 
         <button

@@ -5,14 +5,14 @@ import Header from "../Header/Header";
 import contactImage from "../../assets/contactImage.png";
 
 const ContactForm: React.FC = () => {
-  const [name, setName] = useState<string>("");
+  const [userName, setUserName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [message, setMessage] = useState<string>("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log({ name, email, message });
-    setName("");
+    setUserName("");
     setEmail("");
     setMessage("");
   };
@@ -35,7 +35,7 @@ const ContactForm: React.FC = () => {
             <input
               type="text"
               id="name"
-              value={name}
+              value={username}
               onChange={(e) => setName(e.target.value)}
               required
             />

@@ -5,13 +5,13 @@ import Footer from "../Footer/Footer";
 import Header from "../Header/Header";
 import contactImage from "../../assets/contactImage.png";
 const ContactForm = () => {
-    const [name, setName] = useState("");
+    const [username, setUserName] = useState("");
     const [email, setEmail] = useState("");
     const [message, setMessage] = useState("");
     const handleSubmit = (e) => {
         e.preventDefault();
-        console.log({ name, email, message });
-        setName("");
+        console.log({ username, email, message });
+        setUserName("");
         setEmail("");
         setMessage("");
     };

@@ -9,8 +9,9 @@ import { useNavigate } from "react-router-dom";
 
 interface ProfileProps {
   signupData: {
-    name: string;
+    username: string;
     email: string;
+    password: string;
   };
 }
 
@@ -73,8 +74,9 @@ const Profile: React.FC<ProfileProps> = ({ signupData }) => {
       gender,
     };
 
+       console.log("Submitting data:", accountData);
     try {
-      const response = await axios.post("http://localhost:5000/register", accountData);
+      const response = await axios.post(`${apiUrl}/register`, accountData);
       console.log("Account created successfully:", response.data);
       navigate("/user-dashboard");
     } catch (error) {
@@ -115,6 +117,7 @@ const Profile: React.FC<ProfileProps> = ({ signupData }) => {
         </div>
 
         <input
+        
           type="file"
           accept="image/*"
           style={{ display: "none" }}
