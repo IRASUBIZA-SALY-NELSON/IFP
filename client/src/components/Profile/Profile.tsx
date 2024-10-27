@@ -6,6 +6,7 @@ import { MdRadioButtonChecked, MdRadioButtonUnchecked } from "react-icons/md";
 import imagePlaceholder from "../../assets/contactImage.png";
 import axios, { AxiosError } from "axios";
 import { useNavigate } from "react-router-dom";
+import { apiUrl } from '../../main';
 
 interface ProfileProps {
   signupData: {
