@@ -4,8 +4,8 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "tsc && vite build",
+    "dev": "cross-env NODE_ENV=development vite",
+    "build": "cross-env NODE_ENV=production tsc && vite build",
     "preview": "vite preview",
     "deploy": "vite build --force && vercel --prod"
   },
