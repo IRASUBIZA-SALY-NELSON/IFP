@@ -1,3 +1,4 @@
+ //@ts-ignore
 import { PiCaretLeftBold } from "react-icons/pi";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
