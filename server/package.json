@@ -5,12 +5,14 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "nodemon index.js",
-    "dev": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "build": "babel . -d dist"
   },
   "author": "IRASUBIZA SALY NELSON",
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "babel": "^5.8.38",
     "bcrypt": "^5.1.1",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.2",
@@ -31,5 +33,11 @@
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
     "xss-clean": "^0.1.4"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.25.9",
+    "@babel/core": "^7.26.0",
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@babel/preset-env": "^7.26.0"
   }
 }
