@@ -1,3 +1,5 @@
+
+ //@ts-ignore
 import { PiCaretLeftBold } from "react-icons/pi";
 import { useNavigate } from "react-router-dom";
 import styles from "./UpdateFamily.module.css";

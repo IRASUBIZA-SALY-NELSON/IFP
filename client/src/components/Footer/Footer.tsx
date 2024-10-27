@@ -1,3 +1,5 @@
+
+ //@ts-ignore
 import React, { useState } from "react";
 import logo from "../../assets/Logo.svg";
 import styles from "./Footer.module.css";

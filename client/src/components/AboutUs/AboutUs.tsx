@@ -15,9 +15,7 @@ const AboutUs = () => {
       <div className="px-5">
         <h3 className="fw-semibold">What we do</h3>
         <p className="fs-5">
-          We are dedicated software which aim at making a simple way of co
-          nnecting the farmers and their sp onsors which aim at making peop le
-          happy and very impressed
+          We are dedicated software aiming to create a simple way of connecting farmers and their sponsors, making people happy and impressed.
         </p>
       </div>
       <div className="Faq-section"></div>

@@ -1,3 +1,4 @@
+ //@ts-ignore
 import Header from "../Header/Header";
 import ProfileCard from "../MyProfile/ProfileCard";
 import ProjectsCard from "./ProjectsCard";

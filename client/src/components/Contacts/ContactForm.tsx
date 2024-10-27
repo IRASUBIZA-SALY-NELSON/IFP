@@ -5,15 +5,13 @@ import Header from "../Header/Header";
 import contactImage from "../../assets/contactImage.png";
 
 const ContactForm: React.FC = () => {
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [message, setMessage] = useState("");
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [message, setMessage] = useState<string>("");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-
     console.log({ name, email, message });
-
     setName("");
     setEmail("");
     setMessage("");
@@ -26,7 +24,7 @@ const ContactForm: React.FC = () => {
       <hr />
       <img
         src={contactImage}
-        alt="Contact illustraction"
+        alt="Contact illustration"
         className="contact-form-image"
       />
       <p className="talk">Eagerly want to talk with us</p>
@@ -60,7 +58,7 @@ const ContactForm: React.FC = () => {
               value={message}
               onChange={(e) => setMessage(e.target.value)}
               required
-            ></textarea>
+            />
           </div>
           <button type="submit" className="contact-form-submit d-flex justify-content-center">
             Send

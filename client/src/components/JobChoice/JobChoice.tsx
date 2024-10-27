@@ -1,3 +1,4 @@
+ //@ts-ignore
 import React, { useState } from "react";
 import styles from "./JobChoice.module.css";
 import { MdRadioButtonChecked, MdRadioButtonUnchecked } from "react-icons/md";

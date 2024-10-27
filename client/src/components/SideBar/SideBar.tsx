@@ -1,3 +1,4 @@
+ //@ts-ignore
 import React from "react";
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { CiGrid42 } from "react-icons/ci";

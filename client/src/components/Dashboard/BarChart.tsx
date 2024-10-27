@@ -22,18 +22,8 @@ ChartJS.register(
 const BarChart: React.FC = () => {
   const data = {
     labels: [
-      "Jan",
-      "Feb",
-      "March",
-      "Apr",
-      "May",
-      "Jun",
-      "Jul",
-      "Aug",
-      "Sept",
-      "Oct",
-      "Nov",
-      "Dec",
+      "Jan", "Feb", "March", "Apr", "May", "Jun", "Jul", 
+      "Aug", "Sept", "Oct", "Nov", "Dec",
     ],
     datasets: [
       {

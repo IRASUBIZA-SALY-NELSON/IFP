@@ -1,3 +1,4 @@
+ //@ts-ignore
 import React from 'react';
 import styles from './SignUp.module.css';
 

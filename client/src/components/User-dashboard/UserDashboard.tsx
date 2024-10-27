@@ -1,3 +1,4 @@
+ //@ts-ignore
 import React, { useEffect, useState } from "react";
 import ProposalCard from "../Dashboard/ProposalCard";
 import Footer from "../Footer/Footer";

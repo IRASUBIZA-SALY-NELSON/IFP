@@ -1,3 +1,4 @@
+ //@ts-ignore
 import React from "react";
 import { PiCaretLeftBold } from "react-icons/pi";
 import styles from "./TermsAndConditions.module.css";

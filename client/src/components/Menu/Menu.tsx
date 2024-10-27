@@ -1,3 +1,4 @@
+ //@ts-ignore
 import { IoMdCloseCircleOutline } from "react-icons/io";
 import { FaPhoneAlt, FaUser, FaRegQuestionCircle } from "react-icons/fa";
 import { RiMessage2Line } from "react-icons/ri";

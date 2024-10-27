@@ -4,12 +4,17 @@ import { RxCaretRight, RxCaretDown } from "react-icons/rx";
 import styles from "./Profile.module.css";
 import { MdRadioButtonChecked, MdRadioButtonUnchecked } from "react-icons/md";
 import imagePlaceholder from "../../assets/contactImage.png";
-import axios from "axios";
-import { useLocation, useNavigate } from "react-router-dom";
+import axios, { AxiosError } from "axios";
+import { useNavigate } from "react-router-dom";
 
-const Profile: React.FC = () => {
-  const location = useLocation();
-  const signupData = location.state?.signupData || {}; // Access signupData from location state
+interface ProfileProps {
+  signupData: {
+    name: string;
+    email: string;
+  };
+}
+
+const Profile: React.FC<ProfileProps> = ({ signupData }) => {
   const [isProvinceDropdownOpen, setIsProvinceDropdownOpen] = useState(false);
   const [selectedProvince, setSelectedProvince] = useState<string | null>(null);
   const [isDistrictDropdownOpen, setDistrictDropdownOpen] = useState(false);
@@ -22,34 +27,9 @@ const Profile: React.FC = () => {
 
   const provinces: Record<string, string[]> = {
     Kigali: ["Gasabo", "Kicukiro", "Nyarugenge"],
-    Eastern: [
-      "Rwamagana",
-      "Kayonza",
-      "Bugesera",
-      "Nyagatare",
-      "Gatsibo",
-      "Ngoma",
-      "Kirehe",
-    ],
-    Western: [
-      "Rubavu",
-      "Rusizi",
-      "Nyabihu",
-      "Nyamasheke",
-      "Ngororero",
-      "Karongi",
-      "Rutsiro",
-    ],
-    Southern: [
-      "Kamonyi",
-      "Muhanga",
-      "Ruhango",
-      "Nyanza",
-      "Huye",
-      "Nyaruguru",
-      "Gisagara",
-      "Nyamagabe",
-    ],
+    Eastern: ["Rwamagana", "Kayonza", "Bugesera", "Nyagatare", "Gatsibo", "Ngoma", "Kirehe"],
+    Western: ["Rubavu", "Rusizi", "Nyabihu", "Nyamasheke", "Ngororero", "Karongi", "Rutsiro"],
+    Southern: ["Kamonyi", "Muhanga", "Ruhango", "Nyanza", "Huye", "Nyaruguru", "Gisagara", "Nyamagabe"],
     Northern: ["Rulindo", "Gakenke", "Musanze", "Gicumbi", "Burera"],
   };
 
@@ -77,34 +57,35 @@ const Profile: React.FC = () => {
       setProfileImage(imageUrl);
     }
   };
-const handleSubmit = async (e: React.FormEvent) => {
-  e.preventDefault();
-  if (!selectedProvince || !selectedDistrict || !gender) {
-    console.log("Please fill in all required fields.");
-    return; 
-  }
 
-  const accountData = {
-    ...signupData,
-    profileImage,
-    province: selectedProvince,
-    district: selectedDistrict,
-    gender,
-  };
-
-  try {
-    const response = await axios.post("http://localhost:5000/register", accountData);
-    console.log("Account created successfully:", response.data);
-    navigate("/user-dashboard");
-  } catch (error) {
-    if (error.response) {
-        console.error("Error creating account:", error.response.data);
-    } else {
-        console.error("Error creating account:", error.message);
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (!selectedProvince || !selectedDistrict || !gender) {
+      console.log("Please fill in all required fields.");
+      return;
     }
-}
 
-};
+    const accountData = {
+      ...signupData,
+      profileImage,
+      province: selectedProvince,
+      district: selectedDistrict,
+      gender,
+    };
+
+    try {
+      const response = await axios.post("http://localhost:5000/register", accountData);
+      console.log("Account created successfully:", response.data);
+      navigate("/user-dashboard");
+    } catch (error) {
+      const axiosError = error as AxiosError;
+      if (axiosError.response) {
+        console.error("Error creating account:", axiosError.response.data);
+      } else {
+        console.error("Error creating account:", axiosError.message);
+      }
+    }
+  };
 
   return (
     <div className={`${styles.container} p-3`}>
@@ -150,11 +131,7 @@ const handleSubmit = async (e: React.FormEvent) => {
             {selectedProvince ? selectedProvince : "Choose province"}
           </p>
           <span>
-            {isProvinceDropdownOpen ? (
-              <RxCaretDown size={30} />
-            ) : (
-              <RxCaretRight size={30} />
-            )}
+            {isProvinceDropdownOpen ? <RxCaretDown size={30} /> : <RxCaretRight size={30} />}
           </span>
         </div>
         {isProvinceDropdownOpen && (
@@ -172,16 +149,11 @@ const handleSubmit = async (e: React.FormEvent) => {
           onClick={() => setDistrictDropdownOpen(!isDistrictDropdownOpen)}
           className={styles.dropdown}
         >
-          
           <p className="fs-5 text-black">
             {selectedDistrict ? selectedDistrict : "Choose district"}
           </p>
           <span>
-            {isDistrictDropdownOpen ? (
-              <RxCaretDown size={30} />
-            ) : (
-              <RxCaretRight size={30} />
-            )}
+            {isDistrictDropdownOpen ? <RxCaretDown size={30} /> : <RxCaretRight size={30} />}
           </span>
         </div>
         {isDistrictDropdownOpen && (

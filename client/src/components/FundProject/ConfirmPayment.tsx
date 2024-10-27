@@ -1,3 +1,4 @@
+ //@ts-ignore
 import { PiCaretLeftBold } from "react-icons/pi";
 import styles from "./FundProject.module.css";
 import { useNavigate } from "react-router-dom";

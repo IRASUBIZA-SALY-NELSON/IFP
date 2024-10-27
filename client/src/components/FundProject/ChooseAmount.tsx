@@ -1,3 +1,4 @@
+ //@ts-ignore
 import { useState } from "react";
 import styles from "./FundProject.module.css";
 import { PiCaretLeftBold } from "react-icons/pi";

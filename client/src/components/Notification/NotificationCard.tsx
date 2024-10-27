@@ -1,3 +1,4 @@
+ //@ts-ignore
 import { useState } from 'react'
 import { IoClose } from "react-icons/io5";
 import profile from "../../assets/farmer_1-removebg-preview.png";

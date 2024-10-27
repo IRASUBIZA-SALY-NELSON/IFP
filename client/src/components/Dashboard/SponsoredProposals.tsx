@@ -1,3 +1,4 @@
+ //@ts-ignore
 import styles from "./Dashboard.module.css";
 import farmer from "../../assets/farmer_1-removebg-preview.png";
 

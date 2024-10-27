@@ -1,3 +1,4 @@
+ //@ts-ignore
 import logo from "../../assets/Logo.svg";
 import children from "../../assets/children.png";
 import { IoGridOutline } from "react-icons/io5";

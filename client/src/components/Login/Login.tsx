@@ -1,3 +1,4 @@
+//@ts-ignore
 import React, { useState } from "react";
 import styles from "../SignUp/SignUp.module.css";
 import { FaApple, FaRegUser } from "react-icons/fa6";
@@ -8,41 +9,46 @@ import SignUpWith from "../SignUp/SignUpWith";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const Login = () => {
-  const [formData, setFormData] = useState({
+interface FormData {
+  email: string;
+  password: string;
+  rememberMe: boolean;
+}
+
+const Login: React.FC = () => {
+  const [formData, setFormData] = useState<FormData>({
     email: "",
     password: "",
     rememberMe: false,
   });
-  const [isChecked, setChecked] = useState(false);
+  const [isChecked, setChecked] = useState<boolean>(false);
   const navigate = useNavigate();
 
-const handleFormSubmit = async (e) => {
-  e.preventDefault();
-  try {
-    const response = await axios.post("http://localhost:5000/login", {
-      email: formData.email,
-      password: formData.password,
-      rememberMe: formData.rememberMe,
-    });
+  const handleFormSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("http://localhost:5000/login", {
+        email: formData.email,
+        password: formData.password,
+        rememberMe: formData.rememberMe,
+      });
 
-    console.log(response.data); // Log the entire response
-    const { token } = response.data;
-    console.log(token); // Log the token
-    if (!token) {
-      throw new Error("Token not received");
+      console.log(response.data); // Log the entire response
+      const { token } = response.data;
+      console.log(token); // Log the token
+      if (!token) {
+        throw new Error("Token not received");
+      }
+
+      localStorage.setItem("token", token);
+      setTimeout(() => {
+        navigate("/user-dashboard");
+      }, 100); // Delay for 100ms
+    } catch (error) {
+      alert("Incorrect credentials");
+      console.error(error);
     }
-
-    localStorage.setItem("token", token);
-    setTimeout(() => {
-      navigate("/user-dashboard");
-    }, 100); // Delay for 100ms
-  } catch (error) {
-    alert("Incorrect credentials");
-    console.error(error);
-  }
-};
-
+  };
 
   const handleCheckBoxClick = () => {
     setChecked((prevCheck) => !prevCheck);

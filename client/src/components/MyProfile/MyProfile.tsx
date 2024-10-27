@@ -1,3 +1,4 @@
+ //@ts-ignore
 import Header from "../Header/Header";
 import style from "../AboutUs/AboutUs.module.css";
 import styles from "./MyProfile.module.css";

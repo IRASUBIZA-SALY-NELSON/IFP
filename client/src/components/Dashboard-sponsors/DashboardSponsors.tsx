@@ -10,11 +10,7 @@ const DashboardSponsors = () => {
       <div className="p-3 mt-5">
         <h5 className="fw-semibold">Proposal Statistics</h5>
         <div className="d-flex">
-          <ProposalStats
-            status="Funded"
-            statusNum="50"
-            bgColor="success-subtle"
-          />
+          <ProposalStats status="Funded" statusNum="50" bgColor="success-subtle" />
           <ProposalStats status="Approved" statusNum="50" bgColor="success" />
           <ProposalStats status="Rejected" statusNum="50" bgColor="danger" />
         </div>
@@ -22,7 +18,8 @@ const DashboardSponsors = () => {
       <div className="p-3">
         <div className="d-flex justify-content-between mb-3">
           <h3 className="mt-2 fw-semibold">New Proposals</h3>
-          <input title="input the date"
+          <input
+            title="input the date"
             type="date"
             className="border border-success border-2 rounded-5"
             style={{ maxHeight: "50px", maxWidth: "145px" }}
@@ -31,19 +28,18 @@ const DashboardSponsors = () => {
         <div>
           <ProposalCard
             proposalHeading="The animal food support project"
-            proposalDescription="This project aims at producing adequate food supplies to farmers and
-            other users."
+            proposalDescription="This project aims at producing adequate food supplies to farmers and other users."
+            projectId="1"
           />
         </div>
         <div className="mt-3">
           <ProposalCard
             proposalHeading="The animal food support project"
-            proposalDescription="This project aims at producing adequate food supplies to farmers and
-            other users."
+            proposalDescription="This project aims at producing adequate food supplies to farmers and other users."
+            projectId="2"
           />
         </div>
       </div>
-      {/* Other sections */}
       <Footer />
     </div>
   );

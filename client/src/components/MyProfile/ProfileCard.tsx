@@ -1,3 +1,4 @@
+ //@ts-ignore
 import { HiOutlineLocationMarker } from 'react-icons/hi'
 import { MdOutlinePhone } from 'react-icons/md'
 import CardInfoBadge from './CardInfoBadge'

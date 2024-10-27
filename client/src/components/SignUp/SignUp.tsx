@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+//@ts-ignore
+import React, { useState, useContext } from "react";
 import { FaRegUser, FaRegEnvelope, FaApple } from "react-icons/fa";
 import { MdLockOutline } from "react-icons/md";
 import { ImCheckboxUnchecked, ImCheckboxChecked } from "react-icons/im";
@@ -6,21 +7,20 @@ import styles from "./SignUp.module.css";
 import SignUpWith from "./SignUpWith";
 import { FcGoogle } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
-import { useContext } from 'react';
 import { SignUpContext } from '../../contexts/SignUpContext';
 
 const SignupForm: React.FC = () => {
   const [isChecked, setChecked] = useState(false);
- const { formData, setFormData } = useContext(SignUpContext)
+  const { formData, setFormData } = useContext(SignUpContext);
   const navigate = useNavigate();
-  
- const handleCheckBoxClick = () => {
-  setChecked((prevCheck) => {
-    const newCheck = !prevCheck;
-    setFormData({ ...formData, termsAndConditions: newCheck });
-    return newCheck;
-  });
-};
+
+  const handleCheckBoxClick = () => {
+    setChecked((prevCheck) => {
+      const newCheck = !prevCheck;
+      setFormData({ ...formData, termsAndConditions: newCheck });
+      return newCheck;
+    });
+  };
 
   const handleNextClick = () => {
     if (
@@ -30,7 +30,7 @@ const SignupForm: React.FC = () => {
       formData.confirmPassword &&
       formData.termsAndConditions
     ) {
-      navigate("/complete-profile", { state: { signupData: formData } });
+      navigate("/complete-profile");
     } else {
       alert("Please fill in all fields and accept the terms and conditions.");
     }

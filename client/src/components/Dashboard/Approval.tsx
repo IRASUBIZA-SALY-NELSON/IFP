@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import styles from "./Dashboard.module.css";
 import Header from "../Header/Header";
 import ProposalStats from "./ProposalStats";
@@ -14,7 +14,6 @@ interface DashboardProps {
 }
 
 const Approvals: React.FC<DashboardProps> = ({ selectedTab, onTabChange }) => {
-  // Sample data
   const approvedContent = (
     <div>
       <p className="text-success">Approved Item 1</p>
@@ -33,18 +32,13 @@ const Approvals: React.FC<DashboardProps> = ({ selectedTab, onTabChange }) => {
     <>
       <p className="fs-5 fw-semibold">Proposal Statistics</p>
       <div className="d-flex">
-        <ProposalStats
-          status="Funded"
-          statusNum="50"
-          bgColor="success-subtle"
-        />
+        <ProposalStats status="Funded" statusNum="50" bgColor="success-subtle" />
         <ProposalStats status="Finished" statusNum="50" bgColor="success" />
         <ProposalStats status="Not Done" statusNum="50" bgColor="danger" />
       </div>
     </>
   );
 
-  // Function to dynamically render content based on the selected tab
   const renderContent = () => {
     switch (selectedTab) {
       case "Approved":
@@ -65,55 +59,40 @@ const Approvals: React.FC<DashboardProps> = ({ selectedTab, onTabChange }) => {
       <h3 className="mt-3">Dashboard</h3>
       <div className={`d-flex ${styles.dashboard} justify-content-evenly p-3`}>
         <button
-          className={`btn btn-success p-2 rounded-5 fs-5 fw-semibold ${
-            selectedTab === "All" ? styles.active : ""
-          }`}
+          className={`btn btn-success p-2 rounded-5 fs-5 fw-semibold ${selectedTab === "All" ? styles.active : ""}`}
           onClick={() => onTabChange("All")}
         >
           All
         </button>
         <button
-          className={`btn bg-success-subtle p-2 pb-1 pt-1 px-0 rounded-5 fs-5 fw-semibold mx-2 ${
-            selectedTab === "Approved" ? styles.active : ""
-          }`}
+          className={`btn bg-success-subtle p-2 pb-1 pt-1 px-0 rounded-5 fs-5 fw-semibold mx-2 ${selectedTab === "Approved" ? styles.active : ""}`}
           onClick={() => onTabChange("Approved")}
         >
           Approved
         </button>
         <button
-          className={`btn bg-success-subtle rounded-5 fs-5 fw-semibold ${
-            selectedTab === "Unapproved" ? styles.active : ""
-          }`}
+          className={`btn bg-success-subtle rounded-5 fs-5 fw-semibold ${selectedTab === "Unapproved" ? styles.active : ""}`}
           onClick={() => onTabChange("Unapproved")}
         >
           Unapproved
         </button>
       </div>
-      {/* Dynamically render content based on selected tab */}
       <div className="mt-3">{renderContent()}</div>
       <div className="p-3">
         <div className="d-flex justify-content-between mb-3">
           <h3 className="mt-1">New Proposals</h3>
-          <input
-            type="date"
-            className="border border-success border-2 rounded-5"
-            style={{ maxHeight: "50px", maxWidth: "145px" }}
-          />
+          <input type="date" className="border border-success border-2 rounded-5" style={{ maxHeight: "50px", maxWidth: "145px" }} />
         </div>
-        <ProposalCard
-          proposalHeading="The animal food support project"
-          proposalDescription="This project aims at producing adequate food supplies to farmers and
-            other users."
+        <ProposalCard 
+          projectId="exampleProjectId" // Replace with actual project ID
+          proposalHeading="The animal food support project" 
+          proposalDescription="This project aims at producing adequate food supplies to farmers and other users." 
         />
       </div>
       <div className="p-3">
         <div className="d-flex justify-content-between mb-3">
           <h4 className="mt-1">Sponsored Proposals</h4>
-          <input
-            type="date"
-            className="border border-success border-2 rounded-5"
-            style={{ maxHeight: "50px", maxWidth: "140px" }}
-          />
+          <input type="date" className="border border-success border-2 rounded-5" style={{ maxHeight: "50px", maxWidth: "140px" }} />
         </div>
         <SponsoredProposals />
       </div>

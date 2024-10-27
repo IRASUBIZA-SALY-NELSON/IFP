@@ -1,3 +1,4 @@
+ //@ts-ignore
 import { useEffect, useState } from "react";
 import NotificationCard from "./NotificationCard";
 import { PiCaretLeftBold } from "react-icons/pi";

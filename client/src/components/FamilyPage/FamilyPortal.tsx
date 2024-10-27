@@ -1,3 +1,5 @@
+
+ //@ts-ignore
 import Header from "../Header/Header";
 import Footer from "../Footer/Footer";
 import family from "../../assets/fam 1.jpg";

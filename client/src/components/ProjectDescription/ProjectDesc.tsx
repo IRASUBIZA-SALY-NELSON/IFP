@@ -1,4 +1,3 @@
- //@ts-ignore
 import { PiCaretLeftBold } from "react-icons/pi";
 import { useNavigate, useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
@@ -6,16 +5,15 @@ import { Button, Modal } from "react-bootstrap";
 import styles from "./ProjectDesc.module.css";
 import axios from "axios";
 
-// Define the Project interface
 interface Project {
   name: string;
   imageUrl: string;
   description: string;
-  startDate: string; // Assuming date is in string format
-  endDate: string;   // Assuming date is in string format
+  startDate: string;
+  endDate: string;
 }
 
-const ProjectDesc = () => {
+const ProjectDesc: React.FC = () => {
   const [project, setProject] = useState<Project | null>(null);
   const [showModal, setShowModal] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -40,7 +38,7 @@ const ProjectDesc = () => {
         const response = await axios.get(`http://localhost:5000/project/${projectId}`);
         setProject(response.data);
         setLoading(false);
-      } catch (error) {
+      } catch {
         setError(true);
         setLoading(false);
       }

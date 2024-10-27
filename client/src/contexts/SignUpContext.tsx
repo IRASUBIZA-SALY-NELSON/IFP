@@ -1,3 +1,4 @@
+//@ts-ignore
 import React, { useState, createContext, ReactNode } from "react";
 
 // Define the form data structure
@@ -12,7 +13,7 @@ interface FormData {
 // Define the context props structure
 interface SignUpContextProps {
     formData: FormData;
-    setFormData: (data: FormData) => void;  // Update this to accept FormData
+    setFormData: (data: FormData) => void;
 }
 
 // Create the context with default values
@@ -24,7 +25,7 @@ export const SignUpContext = createContext<SignUpContextProps>({
         confirmPassword: "",
         termsAndConditions: false,
     },
-    setFormData: () => {},  // Default function for setFormData
+    setFormData: () => {},
 });
 
 // Create the context provider component
