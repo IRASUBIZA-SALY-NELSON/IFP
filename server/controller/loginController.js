@@ -41,5 +41,8 @@ const authenticateToken = (req, res, next) => {
     return res.status(403).json({ error: "Invalid token" });
   }
 };
-
+app.get('/api/auth/google', (req, res) => {
+  // The user is already logged in via Google, you can send a response or token
+  res.json({ message: "Logged in with Google!", user: req.user });
+});
 module.exports = { login: app.post("/login"), authenticateToken };

@@ -76,7 +76,7 @@ const Profile: React.FC<ProfileProps> = ({ signupData }) => {
     };
 
     try {
-      const response = await axios.post(`${apiUrl}/register`, accountData);
+      const response = await axios.post(`https://ifp-48r2.onrender.com/register`, accountData);
       console.log("Account created successfully:", response.data);
       navigate("/user-dashboard");
     } catch (error) {
