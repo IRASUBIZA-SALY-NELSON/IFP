@@ -34,7 +34,7 @@ const WelcomePage = () => {
             to={"/login"}
             className={`button ${styles.button} text-white text-decoration-none fs-5 d-block fw-semibold mx-5 rounded-5`}
           >
-            Login
+            Loginto
           </Link>
         </div>
       </div>
