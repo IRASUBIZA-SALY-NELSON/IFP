@@ -24,13 +24,15 @@ app.post("/login", async (req, res) => {
     expiresIn: "5h",
   });
   console.log(token);
-  
 
   res.json({ token });
 });
 
 const authenticateToken = (req, res, next) => {
-  const token = req.headers.authorization?.split(" ")[1];
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(" ")[1]; 
+  //here i have to check if the auth header exists befire spliting it.
+
   if (!token) return res.status(401).json({ error: "Unauthorized" });
 
   try {
