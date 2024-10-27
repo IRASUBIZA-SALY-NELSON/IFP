@@ -33,11 +33,5 @@
     "passport": "^0.7.0",
     "passport-google-oauth20": "^2.0.0",
     "xss-clean": "^0.1.4"
-  },
-  "devDependencies": {
-    "@babel/cli": "^7.25.9",
-    "@babel/core": "^7.26.0",
-    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
-    "@babel/preset-env": "^7.26.0"
   }
 }
